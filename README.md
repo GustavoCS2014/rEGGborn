@@ -1,2 +1,2 @@
-# rEGGstart
+# rEGGborn
 Game for UDEjam
