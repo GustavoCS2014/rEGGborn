@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Inputs;
 using Interfaces;
 using Unity.Mathematics;
-using UnityEditor.ShaderGraph;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 namespace Player{
     public class PlayerController : MonoBehaviour {
@@ -17,14 +13,28 @@ namespace Player{
             Dead,
         }
 
+        public PlayerController Instance {get; private set;}
         public bool EggLayed {get; private set;}
         public PlayerState state;
+        [Header("Visuals"), Space(10)]
+        [SerializeField] private SpriteRenderer AliveSprite;
+        [SerializeField] private SpriteRenderer DeadSprite;
+        [Header("LayerMasks"), Space(10)]
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private LayerMask wallMask;
         [SerializeField] private LayerMask interactableMask;
+        [Header("Egg"), Space(10)]
         [SerializeField] private Egg egg;
         [SerializeField] private Egg layedEgg;
         private Vector2 _direction;
+
+        private void Awake() {
+            if(Instance){
+                Destroy(gameObject);
+            }else{
+                Instance = this;
+            }
+        }
 
         private void Start() {
             // InputManager.OnMove += OnMoveEvent;
@@ -36,6 +46,21 @@ namespace Player{
             // InputManager.OnMove -= OnMoveEvent;
             InputManager.OnLayEgg -= OnLayEggEvent;
             InputManager.OnMovePad -= OnMovePadEvent;
+        }
+
+        private void Update(){
+            
+            switch(state){
+                case PlayerState.Alive:
+                    AliveSprite.enabled = true;
+                    DeadSprite.enabled = false;
+                break;
+                case PlayerState.Dead:
+                    DeadSprite.enabled = true;
+                    AliveSprite.enabled = false;
+                break;
+            }
+
         }
 
         private void OnMovePadEvent(InputAction.CallbackContext context, Vector2 input)
@@ -74,21 +99,6 @@ namespace Player{
 
 
         #region COLLISION DETECTION
-        /// <summary>
-        /// Returns an int that identifies what it collided with.
-        /// -1 = Wall (Cannot Walk)
-        /// 0 = Floor (Can walk perfectly)
-        /// 1 = Movable Object (Can Push it)
-        /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        private int CheckCollisionAt(Vector2 position){
-            float checkSize = .2f;
-            if(Physics2D.OverlapCircle(position, checkSize, interactableMask)) return 1; 
-            if(Physics2D.OverlapCircle(position, checkSize, wallMask)) return -1;
-            if(Physics2D.OverlapCircle(position, checkSize, groundMask)) return 0;
-            return -1;
-        }
 
         /// <summary>
         /// Returns an int that identifies what it collided with.
@@ -100,6 +110,16 @@ namespace Player{
         /// <returns></returns>
         private int CheckCollisionAt(Vector2 position, out Collider2D collider){
             collider = null;
+            if(state == PlayerState.Dead){
+                // if the player is dead and collides with an egg, revive.
+                if(!(collider = Physics2D.OverlapCircle(position, .4f, interactableMask))) return 0;
+                if(!collider.TryGetComponent(out IGhostInteractable interactable)) return 0;
+                var newEgg = interactable as Egg;
+                newEgg.Reborn(out Vector3 eggPos);
+                transform.position = eggPos;
+                state = PlayerState.Alive;
+                return -1;
+            }
             if(collider = Physics2D.OverlapCircle(position, .4f, interactableMask)) return 1;
             if(Physics2D.OverlapCircle(position, .4f, wallMask)) return -1;
             if(Physics2D.OverlapCircle(position, .4f, groundMask)) return 0;
@@ -107,19 +127,27 @@ namespace Player{
         }
         #endregion
 
+        private void Die(){
+            state = PlayerState.Dead;
+        }
+
+
+        #region DEBUG   
         private void OnGUI() {
 
             GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = 30;
             if(GUILayout.Button("~ SUICIDE ~",  GUILayout.Height(100f), GUILayout.Width(300f))){
-                layedEgg.Reborn(out Vector3 position);
-                EggLayed = false;
-                transform.position = position;
+                Die();
+                // layedEgg.Reborn(out Vector3 position);
+                // EggLayed = false;
+                // transform.position = position;
             }
         }
 
         private void OnDrawGizmos() {
+
             Gizmos.color = Color.red;
-            if(CheckCollisionAt((Vector2)transform.position + _direction) == 0)
+            if(CheckCollisionAt((Vector2)transform.position + _direction, out Collider2D c) == 0)
                 Gizmos.color = Color.green;
             
             Gizmos.DrawSphere(
@@ -127,6 +155,7 @@ namespace Player{
                 .25f
             );
         }
+        #endregion
 
     }
 }
