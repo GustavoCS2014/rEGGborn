@@ -92,17 +92,33 @@ namespace Player{
 
         private void HandleMove(Vector2 direction){
             int collision = CheckCollisionAt((Vector2)transform.position + direction, out Collider2D collider);
-            if(collision > 0){
-                if(!collider.TryGetComponent(out IMovable movable)) return;
-                _gameManager.IncreaseMoves();
-                movable.PushTo(_direction);
+            //? Executes when Collided with Interactable.
+            if(collision > 0)
+            {
+                HandleIMovable(collider);
+                HandleIDamager(ref collision, collider);
+
             }
 
-            if(collision == 0){
+            if (collision == 0){
                 _gameManager.IncreaseMoves();
                 transform.position += (Vector3)direction;
                 return;
             }
+        }
+
+        private void HandleIDamager(ref int collision, Collider2D collider)
+        {
+            if (!collider.TryGetComponent(out IDamager damager)) return;
+            damager.Damage(this);
+            collision = 0;
+        }
+
+        private void HandleIMovable(Collider2D collider)
+        {
+            if (!collider.TryGetComponent(out IMovable movable)) return;
+            _gameManager.IncreaseMoves();
+            movable.PushTo(_direction);
         }
 
 
