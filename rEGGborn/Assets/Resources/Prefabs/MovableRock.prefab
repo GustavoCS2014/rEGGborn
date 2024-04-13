@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 31830856144126483}
   - component: {fileID: 1357128729346916070}
   m_Layer: 8
-  m_Name: Pushable
+  m_Name: MovableRock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 7738751188869011120}
   - component: {fileID: 5927243783000561495}
   m_Layer: 8
-  m_Name: Square
+  m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ SpriteRenderer:
   m_SortingLayerID: 2089221073
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9093c54862bdf0b4284af0fdf960bd19, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9149d325c0797d24cb6b47dc0fbb2bf0, type: 3}
   m_Color: {r: 0.375, g: 0.39492756, b: 0.5, a: 1}
   m_FlipX: 0
   m_FlipY: 0
