@@ -1,7 +1,7 @@
 using Player;
 
 namespace Interfaces{
-    interface IDamager{
+    public interface IDamager : IInteractable{
         void Damage(PlayerController player);
         
     }

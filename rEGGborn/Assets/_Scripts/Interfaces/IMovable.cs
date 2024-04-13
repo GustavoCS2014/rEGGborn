@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Interfaces{
-    interface IMovable{
+    public interface IMovable : IInteractable{
 
         /// <summary>
         /// Pushes the object in the direction provided.

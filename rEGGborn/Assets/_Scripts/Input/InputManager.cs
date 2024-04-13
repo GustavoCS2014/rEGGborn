@@ -11,10 +11,13 @@ namespace Inputs{
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private void Awake() {
+            if(Instance){
+                Destroy(gameObject);
+            }else{
+                Instance = this;
+            }
             _playerActions = new PlayerActions();
             _playerActions.Enable();
-            
-
         }
 
         private void OnEnable() {

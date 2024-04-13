@@ -19,6 +19,10 @@ public class Spikes : MonoBehaviour, IDamager
         GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
     }
 
+    public GameObject GetGameObject() => gameObject;
+
+    public Transform GetTransform() => transform;
+
     private void OnMovesIncreasedEvent(int moves){
         if(spikesOut){
             _counter++;

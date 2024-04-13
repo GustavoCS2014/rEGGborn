@@ -22,11 +22,15 @@ public class PushableCrate : MonoBehaviour, IMovable
         Gizmos.DrawSphere(_nextPos, .2f);
     }
 
-    public void PushTo(Vector2 position)
+    public GameObject GetGameObject() => gameObject;
+
+    public Transform GetTransform() => transform;
+
+    public void PushTo(Vector2 direction)
     {
-        _nextPos = (Vector2)transform.position + position;
+        _nextPos = (Vector2)transform.position + direction;
         if(!CanBePushedTo(_nextPos)) return;
-        transform.position += (Vector3)position;
+        transform.position += (Vector3)direction;
     }
 
     public bool CanBePushedTo(Vector2 position){

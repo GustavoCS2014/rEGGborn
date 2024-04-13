@@ -1,3 +1,4 @@
+using System;
 using Inputs;
 using Interfaces;
 using Unity.Mathematics;
@@ -13,7 +14,7 @@ namespace Player{
             Dead,
         }
 
-        public PlayerController Instance {get; private set;}
+        public static PlayerController Instance {get; private set;}
         public bool EggLayed {get; private set;}
         public PlayerState state;
         [Header("Visuals"), Space(10)]
@@ -29,6 +30,8 @@ namespace Player{
         private Vector2 _direction;
 
         private GameManager _gameManager;
+        private CollisionManager _collisionHandler;
+        private CollisionType _collisionType;
 
         private void Awake() {
             if(Instance){
@@ -39,10 +42,12 @@ namespace Player{
         }
 
         private void Start() {
-            _gameManager = GameManager.Instance;            
+            _gameManager = GameManager.Instance;
+            _collisionHandler = CollisionManager.Instance;
             // InputManager.OnMove += OnMoveEvent;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
+            GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
         }
 
         private void OnDestroy() {
@@ -66,11 +71,37 @@ namespace Player{
 
         }
 
+        private void OnMovesIncreasedEvent(int movesCount)
+        {
+        }
+
         private void OnMovePadEvent(InputAction.CallbackContext context, Vector2 input)
         {
             if(context.canceled) return;
 
             _direction = input;
+            _collisionType = _collisionHandler.CheckCollisionAt(
+                (Vector2)transform.position + _direction,
+                state == PlayerState.Dead,
+                out IInteractable interactable
+                );
+
+            if(interactable is IMovable){
+                var movable = interactable as IMovable;
+                movable.PushTo(_direction);
+                _gameManager.IncreaseMoves();
+            }
+            if(interactable is IDamager){
+                var damager = interactable as IDamager;
+                damager.Damage(this);
+            }
+            if(interactable is IEgg){
+                var GhostInteractable = interactable as IEgg;
+                layedEgg = null;
+                EggLayed = false;
+                GhostInteractable.Hatch(this);
+            }
+
             HandleMove(_direction);
         }
 
@@ -85,71 +116,17 @@ namespace Player{
                 EggLayed = false;
             }
     
-            _gameManager.IncreaseMoves();
             EggLayed = true;
             layedEgg = Instantiate(egg, transform.position, quaternion.identity);
+            _gameManager.IncreaseMoves();
         }
 
-        private void HandleMove(Vector2 direction){
-            int collision = CheckCollisionAt((Vector2)transform.position + direction, out Collider2D collider);
-            //? Executes when Collided with Interactable.
-            if(collision > 0)
-            {
-                HandleIMovable(ref collision, collider);
-                HandleIDamager(ref collision, collider);
-
-            }
-
-            if (collision == 0){
+        private void HandleMove(Vector3 direction){
+            if(_collisionType == CollisionType.Walkable){
+                transform.position += direction;
                 _gameManager.IncreaseMoves();
-                transform.position += (Vector3)direction;
-                return;
             }
         }
-
-        private void HandleIDamager(ref int collision, Collider2D collider)
-        {
-            if (!collider.TryGetComponent(out IDamager damager)) return;
-            damager.Damage(this);
-            collision = 0;
-        }
-
-        private void HandleIMovable(ref int collision, Collider2D collider)
-        {
-            if (!collider.TryGetComponent(out IMovable movable)) return;
-            // _gameManager.IncreaseMoves();
-            movable.PushTo(_direction);
-            collision = 0;
-        }
-
-
-        #region COLLISION DETECTION
-
-        /// <summary>
-        /// Returns an int that identifies what it collided with.
-        /// -1 = Wall (Cannot Walk)
-        /// 0 = Floor (Can walk perfectly)
-        /// 1 = Movable Object (Can Push it)
-        /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        private int CheckCollisionAt(Vector2 position, out Collider2D collider){
-            collider = null;
-            if(state == PlayerState.Dead){
-                // if the player is dead and collides with an egg, revive.
-                if(!(collider = Physics2D.OverlapCircle(position, .4f, interactableMask))) return 0;
-                if(!collider.TryGetComponent(out IGhostInteractable interactable)) return 0;
-                var newEgg = interactable as Egg;
-                newEgg.Hatch(this);
-                EggLayed = false;
-                return 0;
-            }
-            if(collider = Physics2D.OverlapCircle(position, .4f, interactableMask)) return 1;
-            if(Physics2D.OverlapCircle(position, .4f, wallMask)) return -1;
-            if(Physics2D.OverlapCircle(position, .4f, groundMask)) return 0;
-            return -1;
-        }
-        #endregion
 
         public void Die(){
             if(state == PlayerState.Alive){
@@ -177,17 +154,7 @@ namespace Player{
                 // transform.position = position;
             }
         }
-
         private void OnDrawGizmos() {
-
-            Gizmos.color = Color.red;
-            if(CheckCollisionAt((Vector2)transform.position + _direction, out Collider2D c) == 0)
-                Gizmos.color = Color.green;
-            
-            Gizmos.DrawSphere(
-                (Vector3)_direction + transform.position,
-                .25f
-            );
         }
         #endregion
 

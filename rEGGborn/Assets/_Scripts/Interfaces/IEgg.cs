@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 namespace Interfaces{
-    interface IGhostInteractable {
-        
+    public interface IEgg : IInteractable {
+        void Hatch(PlayerController player);
     }
 }

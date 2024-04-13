@@ -3,7 +3,11 @@ using Player;
 using UnityEngine;
 
 
-public class Egg : MonoBehaviour, IGhostInteractable{
+public class Egg : MonoBehaviour, IEgg{
+    public GameObject GetGameObject() => gameObject;
+
+    public Transform GetTransform() => transform;
+
     public void Hatch(PlayerController player){
         player.Revive();
         Destroy(gameObject);
