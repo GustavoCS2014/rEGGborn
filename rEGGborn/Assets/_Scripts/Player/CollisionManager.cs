@@ -4,28 +4,13 @@ using Interfaces;
 using Player;
 using UnityEngine;
 
-public class CollisionManager : MonoBehaviour {
-    public static CollisionManager Instance {get; private set;}
+[CreateAssetMenu(fileName = "CollisionManager", menuName = "Collision Manager")]
+public class CollisionManager : ScriptableObject {
 
     [Header("LayerMasks"), Space(10)]
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private LayerMask wallMask;
     [SerializeField] private LayerMask interactableMask;
-
-    // private PlayerController _player;
-
-    private void Awake() {
-        if(Instance){
-            Destroy(gameObject);
-        }else{
-            Instance = this;
-        }
-    }
-
-    private void Start() {
-        // _player = PlayerController.Instance;
-    }
-    
 
     /// <summary>
     /// Checks collisions and returns a <see cref="CollisionType"/>,
@@ -46,6 +31,10 @@ public class CollisionManager : MonoBehaviour {
                 interactable = egg;
                 return CollisionType.Walkable;
             }
+            if(collider.TryGetComponent(out IDamager damager)){
+                interactable = damager;
+                return CollisionType.Walkable;
+            }
             return CollisionType.Walkable;
         }
         //? if hit some interactable.
@@ -54,7 +43,7 @@ public class CollisionManager : MonoBehaviour {
                 interactable = movable;
                 return CollisionType.Wall;
             }
-            if(collider.TryGetComponent(out IEgg ghostInteractable)){
+            if(collider.TryGetComponent(out IEgg egg)){
                 return CollisionType.Wall;
             }
             if(collider.TryGetComponent(out IDamager damager)){

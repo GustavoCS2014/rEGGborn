@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
 
     public GameStates State {get; private set;}
 
-    private void Start() {
+    private void Awake() {
         if(Instance){
             Destroy(gameObject);
         }else{

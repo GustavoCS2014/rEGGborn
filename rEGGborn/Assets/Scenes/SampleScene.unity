@@ -354,6 +354,7 @@ MonoBehaviour:
     m_Bits: 256
   egg: {fileID: 6937468868408173069, guid: 87a0b585a85632844b46052e0ca4a946, type: 3}
   layedEgg: {fileID: 0}
+  _collisionManager: {fileID: 11400000, guid: 8443577030b2a3249ac6a2b3882054cc, type: 2}
 --- !u!61 &114152543
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6436,59 +6437,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a883871024f89604285a746781757141, type: 3}
---- !u!1 &1246958658
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1246958660}
-  - component: {fileID: 1246958659}
-  m_Layer: 0
-  m_Name: CollisionManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1246958659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246958658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9407a886d488b6245a7be631d94311ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  wallMask:
-    serializedVersion: 2
-    m_Bits: 128
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 256
---- !u!4 &1246958660
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246958658}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04966212, y: 1.1387976, z: -0.02228446}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1258654673
 GameObject:
   m_ObjectHideFlags: 0
@@ -26096,4 +26044,3 @@ SceneRoots:
   - {fileID: 1787143860}
   - {fileID: 1159043073}
   - {fileID: 1883375346}
-  - {fileID: 1246958660}

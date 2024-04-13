@@ -12,7 +12,6 @@ public class Spikes : MonoBehaviour, IDamager
     [SerializeField] private int timeOut;
     [SerializeField] private int timeIn;
     [SerializeField] private Transform SpikesUp;
-    [SerializeField] private Transform SpikesDown;
 
     private int _counter;
 
@@ -20,7 +19,6 @@ public class Spikes : MonoBehaviour, IDamager
         GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
 
         SpikesUp.gameObject.SetActive(spikesOut);
-        SpikesDown.gameObject.SetActive(!spikesOut);
     }
 
     public GameObject GetGameObject() => gameObject;
@@ -41,7 +39,6 @@ public class Spikes : MonoBehaviour, IDamager
         }
 
         SpikesUp.gameObject.SetActive(spikesOut);
-        SpikesDown.gameObject.SetActive(!spikesOut);
     }
 
     public void Damage(PlayerController player)

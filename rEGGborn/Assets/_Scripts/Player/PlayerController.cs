@@ -30,7 +30,7 @@ namespace Player{
         private Vector2 _direction;
 
         private GameManager _gameManager;
-        private CollisionManager _collisionHandler;
+        [SerializeField] private CollisionManager _collisionManager;
         private CollisionType _collisionType;
 
         private void Awake() {
@@ -43,7 +43,7 @@ namespace Player{
 
         private void Start() {
             _gameManager = GameManager.Instance;
-            _collisionHandler = CollisionManager.Instance;
+            // _collisionHandler = CollisionManager.Instance;
             // InputManager.OnMove += OnMoveEvent;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
@@ -80,7 +80,9 @@ namespace Player{
             if(context.canceled) return;
 
             _direction = input;
-            _collisionType = _collisionHandler.CheckCollisionAt(
+
+            //? check Collisions to the block the player will move.
+            _collisionType = _collisionManager.CheckCollisionAt(
                 (Vector2)transform.position + _direction,
                 state == PlayerState.Dead,
                 out IInteractable interactable
@@ -91,10 +93,6 @@ namespace Player{
                 movable.PushTo(_direction);
                 _gameManager.IncreaseMoves();
             }
-            if(interactable is IDamager){
-                var damager = interactable as IDamager;
-                damager.Damage(this);
-            }
             if(interactable is IEgg){
                 var GhostInteractable = interactable as IEgg;
                 layedEgg = null;
@@ -103,6 +101,18 @@ namespace Player{
             }
 
             HandleMove(_direction);
+            
+            //? check collisions in the block the player is standing in after moving.
+            _collisionManager.CheckCollisionAt(
+                transform.position,
+                state == PlayerState.Dead,
+                out IInteractable bodyInteractable
+                );
+            
+            if(bodyInteractable is IDamager){
+                var damager = interactable as IDamager;
+                damager.Damage(this);
+            }
         }
 
         private void OnLayEggEvent(InputAction.CallbackContext context)
@@ -133,6 +143,9 @@ namespace Player{
                 state = PlayerState.Dead;
                 return;
             }
+            if(state == PlayerState.Dead){
+                Destroy(gameObject);
+            }
         }
 
         public void Revive(){
@@ -146,13 +159,11 @@ namespace Player{
         #region DEBUG   
         private void OnGUI() {
 
-            GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = 30;
-            if(GUILayout.Button("~ SUICIDE ~",  GUILayout.Height(100f), GUILayout.Width(300f))){
-                Die();
-                // layedEgg.Reborn(out Vector3 position);
-                // EggLayed = false;
-                // transform.position = position;
-            }
+            // GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = 30;
+
+            // if(GUILayout.Button("~ SUICIDE ~",  GUILayout.Height(100f), GUILayout.Width(300f))){
+            //     Die();
+            // }
         }
         private void OnDrawGizmos() {
         }
