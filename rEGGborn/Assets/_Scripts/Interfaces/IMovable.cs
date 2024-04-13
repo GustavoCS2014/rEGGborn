@@ -6,8 +6,8 @@ namespace Interfaces{
         /// <summary>
         /// Pushes the object in the direction provided.
         /// </summary>
-        /// <param name="position">Push to position.</param>
-        void PushTo(Vector2 position);
+        /// <param name="direction">Push to position.</param>
+        void PushTo(Vector2 direction);
         /// <summary>
         /// Returns whether or not the object can be moved.
         /// </summary>
