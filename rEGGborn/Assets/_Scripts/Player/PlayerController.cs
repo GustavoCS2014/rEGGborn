@@ -95,7 +95,7 @@ namespace Player{
             //? Executes when Collided with Interactable.
             if(collision > 0)
             {
-                HandleIMovable(collider);
+                HandleIMovable(ref collision, collider);
                 HandleIDamager(ref collision, collider);
 
             }
@@ -114,11 +114,12 @@ namespace Player{
             collision = 0;
         }
 
-        private void HandleIMovable(Collider2D collider)
+        private void HandleIMovable(ref int collision, Collider2D collider)
         {
             if (!collider.TryGetComponent(out IMovable movable)) return;
-            _gameManager.IncreaseMoves();
+            // _gameManager.IncreaseMoves();
             movable.PushTo(_direction);
+            collision = 0;
         }
 
 
