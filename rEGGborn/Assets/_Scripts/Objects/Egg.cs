@@ -1,10 +1,11 @@
 using Interfaces;
+using Player;
 using UnityEngine;
 
 
 public class Egg : MonoBehaviour, IGhostInteractable{
-    public void Reborn(out Vector3 position){
-        position = transform.position;
+    public void Hatch(PlayerController player){
+        player.Revive();
         Destroy(gameObject);
     }
 }

@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 namespace Inputs{    
     public class InputManager : MonoBehaviour {
         public static InputManager Instance {get; private set;}
-
-        public static event Action<InputAction.CallbackContext> OnMove;
+        public static event Action<InputAction.CallbackContext> OnAnyInput;
         public static event Action<InputAction.CallbackContext> OnLayEgg;
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
         private Vector2 _lastInputDirection;
@@ -14,12 +13,11 @@ namespace Inputs{
         private void Awake() {
             _playerActions = new PlayerActions();
             _playerActions.Enable();
+            
 
         }
 
         private void OnEnable() {
-            _playerActions.Gameplay.Move.performed += MoveAction;
-            _playerActions.Gameplay.Move.canceled += MoveAction;
 
             _playerActions.Gameplay.LayEgg.performed += LayEggAction;
             _playerActions.Gameplay.LayEgg.canceled += LayEggAction;
@@ -36,8 +34,6 @@ namespace Inputs{
         }
 
         private void OnDisable() {
-            _playerActions.Gameplay.Move.performed -= MoveAction;
-            _playerActions.Gameplay.Move.canceled -= MoveAction;
 
             _playerActions.Gameplay.LayEgg.performed -= LayEggAction;
             _playerActions.Gameplay.LayEgg.canceled -= LayEggAction;
@@ -51,12 +47,9 @@ namespace Inputs{
             _playerActions.Gameplay.Right.performed -= RightAction;
             _playerActions.Gameplay.Right.canceled -= RightAction;
         }
-
-        private void MoveAction(InputAction.CallbackContext context){
-            OnMove?.Invoke(context);
-        }
-
         private void LayEggAction(InputAction.CallbackContext context){
+            
+            OnAnyInput?.Invoke(context);
             OnLayEgg?.Invoke(context);
         }
 
@@ -64,6 +57,7 @@ namespace Inputs{
             if(context.performed){
                 _lastInputDirection = Vector2.up;
             }
+            OnAnyInput?.Invoke(context);
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -71,6 +65,7 @@ namespace Inputs{
             if(context.performed){
                 _lastInputDirection = Vector2.down;
             }
+            OnAnyInput?.Invoke(context);
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -78,6 +73,7 @@ namespace Inputs{
             if(context.performed){
                 _lastInputDirection = Vector2.left;
             }
+            OnAnyInput?.Invoke(context);
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -85,6 +81,7 @@ namespace Inputs{
             if(context.performed){
                 _lastInputDirection = Vector2.right;
             }
+            OnAnyInput?.Invoke(context);
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
     }

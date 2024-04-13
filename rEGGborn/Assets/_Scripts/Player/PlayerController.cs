@@ -28,6 +28,8 @@ namespace Player{
         [SerializeField] private Egg layedEgg;
         private Vector2 _direction;
 
+        private GameManager _gameManager;
+
         private void Awake() {
             if(Instance){
                 Destroy(gameObject);
@@ -37,6 +39,7 @@ namespace Player{
         }
 
         private void Start() {
+            _gameManager = GameManager.Instance;            
             // InputManager.OnMove += OnMoveEvent;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
@@ -74,12 +77,15 @@ namespace Player{
         private void OnLayEggEvent(InputAction.CallbackContext context)
         {
             if(context.canceled) return;
+            if(state == PlayerState.Dead) return;
+            
             if(EggLayed){
                 Destroy(layedEgg.gameObject);
                 layedEgg = null;
                 EggLayed = false;
             }
-
+    
+            _gameManager.IncreaseMoves();
             EggLayed = true;
             layedEgg = Instantiate(egg, transform.position, quaternion.identity);
         }
@@ -88,10 +94,12 @@ namespace Player{
             int collision = CheckCollisionAt((Vector2)transform.position + direction, out Collider2D collider);
             if(collision > 0){
                 if(!collider.TryGetComponent(out IMovable movable)) return;
+                _gameManager.IncreaseMoves();
                 movable.PushTo(_direction);
             }
 
             if(collision == 0){
+                _gameManager.IncreaseMoves();
                 transform.position += (Vector3)direction;
                 return;
             }
@@ -115,10 +123,9 @@ namespace Player{
                 if(!(collider = Physics2D.OverlapCircle(position, .4f, interactableMask))) return 0;
                 if(!collider.TryGetComponent(out IGhostInteractable interactable)) return 0;
                 var newEgg = interactable as Egg;
-                newEgg.Reborn(out Vector3 eggPos);
-                transform.position = eggPos;
-                state = PlayerState.Alive;
-                return -1;
+                newEgg.Hatch(this);
+                EggLayed = false;
+                return 0;
             }
             if(collider = Physics2D.OverlapCircle(position, .4f, interactableMask)) return 1;
             if(Physics2D.OverlapCircle(position, .4f, wallMask)) return -1;
@@ -127,8 +134,18 @@ namespace Player{
         }
         #endregion
 
-        private void Die(){
-            state = PlayerState.Dead;
+        public void Die(){
+            if(state == PlayerState.Alive){
+                state = PlayerState.Dead;
+                return;
+            }
+        }
+
+        public void Revive(){
+            if(state == PlayerState.Dead){
+                state = PlayerState.Alive;
+                return;
+            }
         }
 
 
