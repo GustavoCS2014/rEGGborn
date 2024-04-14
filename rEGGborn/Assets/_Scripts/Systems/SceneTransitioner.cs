@@ -23,7 +23,7 @@ namespace Utilities {
         }
 
         private void Update(){
-            if(_transition is not null) Debug.Log($"%{_transition.progress * 100}");
+            // if(_transition is not null) Debug.Log($"{_transition.progress * 100}%");
             if(!_fadeInEnded) return;
             if(_transition.progress > .85f){
                 transitionAnimator.SetTrigger(FADE_OUT);
@@ -42,7 +42,6 @@ namespace Utilities {
         /// <param name="targetScene">Serializable Scene</param>
         public void LoadAndChangeScene(SceneField targetScene){
             _transition = SceneManager.LoadSceneAsync(targetScene);
-            Debug.Log($"loading: {targetScene}");
             transitionAnimator.SetTrigger(FADE_IN);
             _transition.allowSceneActivation = false;
         }

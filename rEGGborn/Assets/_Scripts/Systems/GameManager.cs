@@ -56,4 +56,11 @@ public class GameManager : MonoBehaviour {
     public void ChangeState(GameStates state){
         State = state;
     }
+
+    public void ExitGame(){
+        Application.Quit();
+        #if UNITY_EDITOR
+        Debug.LogWarning($"Quiting Game");
+        #endif
+    }
 }
