@@ -1,7 +1,7 @@
 using System;
 
 [Flags]
-public enum GameStates{
+public enum GameState{
     None = 0,
     MainMenu = 1,
     Playing = 2,

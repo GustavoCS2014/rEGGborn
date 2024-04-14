@@ -1543,6 +1543,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
+      propertyPath: startingScene
+      value: 
+      objectReference: {fileID: 11400000, guid: f2d4b790b71f8f3409f7eff437f5cb1e, type: 2}
+    - target: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
       propertyPath: startingState
       value: 1
       objectReference: {fileID: 0}
@@ -4678,7 +4682,6 @@ GameObject:
   - component: {fileID: 2063109949}
   - component: {fileID: 2063109948}
   - component: {fileID: 2063109947}
-  - component: {fileID: 2063109951}
   - component: {fileID: 2063109950}
   m_Layer: 5
   m_Name: PlayBtn
@@ -4751,20 +4754,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2063109950}
-        m_TargetAssemblyTypeName: TransitionHandler, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2063109951}
-        m_TargetAssemblyTypeName: GameStateChanger, Assembly-CSharp
-        m_MethodName: ChangeCurrentState
+        m_TargetAssemblyTypeName: LevelChanger, Assembly-CSharp
+        m_MethodName: LoadLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4880,25 +4871,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2063109945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57a5a65ff39b89d4cad5b8aabbb24b72, type: 3}
+  m_Script: {fileID: 11500000, guid: 01287af65cd3c7d458436fb26518c1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene:
-    m_SceneAsset: {fileID: 102900000, guid: 7e6c42ca1e74b6a4ab6d596529760b7b, type: 3}
-    m_SceneName: Level1
---- !u!114 &2063109951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2063109945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28209d2e1d346494f8310a95b3bd1f88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetState: 2
+  targetScene: {fileID: 11400000, guid: 041cbda6e04cd044fae5b2b2a099f609, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

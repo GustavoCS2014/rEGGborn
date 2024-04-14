@@ -1,5 +1,6 @@
 using System;
 using Attributes;
+using Core;
 using Inputs;
 using Interfaces;
 using Objects;
@@ -70,7 +71,7 @@ namespace Player{
                     AliveSprite.gameObject.SetActive(false);
                 break;
                 case PlayerState.Dead:
-                    OnPlayerDeadEvent?.Invoke();
+                    
                 break;
             }
 
@@ -159,6 +160,7 @@ namespace Player{
             }
             if(state == PlayerState.Ghost){
                 state = PlayerState.Dead;
+                OnPlayerDeadEvent?.Invoke();
             }
         }
 

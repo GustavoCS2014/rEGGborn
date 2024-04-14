@@ -1,4 +1,5 @@
 using System;
+using Core;
 using Player;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ public class RespawnUI : MonoBehaviour {
 
     private void OnPlayerDeadEvent()
     {
-        GameManager.Instance.ChangeState(GameStates.NextOrRetryScene);
+        Debug.Log($"ded");  
+        GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
         RespawnPanel.gameObject.SetActive(true);
     }
 }

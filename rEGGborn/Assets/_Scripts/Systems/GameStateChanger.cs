@@ -1,8 +1,9 @@
+using Core;
 using UnityEngine;
 
 public class GameStateChanger : MonoBehaviour {
     [Tooltip("WARNING: Choose only one.")]
-    [SerializeField] private GameStates targetState;
+    [SerializeField] private GameState targetState;
 
     public void ChangeCurrentState(){
         GameManager.Instance.ChangeState(targetState);

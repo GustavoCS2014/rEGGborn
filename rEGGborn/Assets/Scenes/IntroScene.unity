@@ -298,9 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a5a65ff39b89d4cad5b8aabbb24b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene:
-    m_SceneAsset: {fileID: 102900000, guid: 94e1e26811e70da4397043515ba08f7d, type: 3}
-    m_SceneName: MainMenu
+  targetScene: {fileID: 11400000, guid: f2d4b790b71f8f3409f7eff437f5cb1e, type: 2}
 --- !u!95 &68277557
 Animator:
   serializedVersion: 5
@@ -742,8 +740,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
+      propertyPath: startingScene
+      value: 
+      objectReference: {fileID: 11400000, guid: a35c4125e5d8ed444972675d0a30e44d, type: 2}
+    - target: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
       propertyPath: startingState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

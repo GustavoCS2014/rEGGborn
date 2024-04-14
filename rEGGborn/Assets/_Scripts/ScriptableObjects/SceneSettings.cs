@@ -1,0 +1,25 @@
+using UnityEngine;
+
+namespace Core {
+    [CreateAssetMenu(fileName = "SceneSettings", menuName = "SceneSettings /New Scene Settings", order = 0)]
+    public class SceneSettings : ScriptableObject {
+
+        [Tooltip("The Scene of the level.")]
+        [SerializeField] private SceneField scene;
+        public SceneField Scene => scene;
+
+        [Tooltip("The StartingState of the level.")]
+        [SerializeField] private GameState startingState;
+        public GameState StartingState => startingState;
+
+        [Space(20)]
+        [Header("Specific to level Scenes (-1 means disabled)")]
+        [Tooltip("The level index (used while storing move counts).")]
+        [SerializeField] private int levelIndex = -1;
+        public uint? LevelIndex => levelIndex < 0 ? null: (uint)levelIndex;
+    
+        [Tooltip("The minimum requiered moves to complete the level.")]
+        [SerializeField] private int minimumMoves = -1;
+        public uint? MinimumMoves => minimumMoves < 0 ? null: (uint)levelIndex;
+    }
+}

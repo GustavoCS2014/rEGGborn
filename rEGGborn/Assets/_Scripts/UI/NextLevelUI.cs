@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 
 public class NextLevelUI : MonoBehaviour {
@@ -12,7 +13,7 @@ public class NextLevelUI : MonoBehaviour {
     }
     private void OnGoalEnterEvent()
     {
-        GameManager.Instance.ChangeState(GameStates.NextOrRetryScene);
+        GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
         nextLevelPanel.gameObject.SetActive(true);
     }
 }

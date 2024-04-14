@@ -1,4 +1,5 @@
 using System;
+using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,7 @@ namespace Inputs{
         public static event Action<InputAction.CallbackContext> OnLayEgg;
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
 
-        [SerializeField] private GameStates gameplayInputActiveStates;
+        [SerializeField] private GameState gameplayInputActiveStates;
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private GameManager _gameManager;

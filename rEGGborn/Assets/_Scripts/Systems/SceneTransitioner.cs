@@ -12,6 +12,7 @@ namespace Utilities {
         [SerializeField] private Animator transitionAnimator;
         private AsyncOperation _transition;
         private bool _fadeInEnded;
+        private GameState _targetSceneStartingGameState;
 
         private void Awake() {
             if(Instance){
