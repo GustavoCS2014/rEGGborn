@@ -11,6 +11,7 @@ namespace Inputs{
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
 
         [SerializeField] private GameState gameplayInputActiveStates;
+        private bool _gameplayInputsDisabled;
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private GameManager _gameManager;
@@ -29,11 +30,7 @@ namespace Inputs{
         }
 
         private void Update(){
-            if((gameplayInputActiveStates & _gameManager.State) == _gameManager.State){
-                _playerActions.Gameplay.Enable();
-            }else{
-                _playerActions.Gameplay.Disable();
-            }
+            _gameplayInputsDisabled = (gameplayInputActiveStates & _gameManager.State) == _gameManager.State;
         }
 
         private void OnEnable() {
@@ -67,8 +64,9 @@ namespace Inputs{
             _playerActions.Gameplay.Right.canceled -= RightAction;
         }
         private void LayEggAction(InputAction.CallbackContext context){
-            
             OnAnyInput?.Invoke(context);
+            if(_gameplayInputsDisabled) return;
+
             OnLayEgg?.Invoke(context);
         }
 
@@ -77,6 +75,7 @@ namespace Inputs{
                 _lastInputDirection = Vector2.up;
             }
             OnAnyInput?.Invoke(context);
+            if(_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -85,6 +84,7 @@ namespace Inputs{
                 _lastInputDirection = Vector2.down;
             }
             OnAnyInput?.Invoke(context);
+            if(_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -93,6 +93,7 @@ namespace Inputs{
                 _lastInputDirection = Vector2.left;
             }
             OnAnyInput?.Invoke(context);
+            if(_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
@@ -101,6 +102,7 @@ namespace Inputs{
                 _lastInputDirection = Vector2.right;
             }
             OnAnyInput?.Invoke(context);
+            if(_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
     }

@@ -2,10 +2,12 @@ using System;
 using Core;
 using Player;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RespawnUI : MonoBehaviour {
     
-    [SerializeField] private Transform RespawnPanel;
+    [SerializeField] private Transform respawnPanel;
+    [SerializeField] private Button defaultButton;
 
     private void Start() {
         PlayerController.OnPlayerDeadEvent += OnPlayerDeadEvent;
@@ -19,6 +21,7 @@ public class RespawnUI : MonoBehaviour {
     {
         Debug.Log($"ded");  
         GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
-        RespawnPanel.gameObject.SetActive(true);
+        respawnPanel.gameObject.SetActive(true);
+        defaultButton.Select();
     }
 }
