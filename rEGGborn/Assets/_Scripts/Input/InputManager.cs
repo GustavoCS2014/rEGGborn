@@ -10,8 +10,13 @@ namespace Inputs{
         public static event Action<InputAction.CallbackContext> OnLayEgg;
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
 
+        public static event Action<InputAction.CallbackContext> OnPauseInput;
+
+        [Header("Input Activation States")]
         [SerializeField] private GameState gameplayInputActiveStates;
         private bool _gameplayInputsDisabled;
+        [SerializeField] private GameState pauseInputActiveStates;
+        private bool _pauseInputsDisabled;
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private GameManager _gameManager;
@@ -24,13 +29,19 @@ namespace Inputs{
             _playerActions = new PlayerActions();
             _playerActions.Enable();
         }
+        private void OnDestroy() {
+            if(_playerActions is not null) _playerActions.Disable();
+        }
 
         private void Start() {
             _gameManager = GameManager.Instance;
         }
 
         private void Update(){
-            _gameplayInputsDisabled = (gameplayInputActiveStates & _gameManager.State) == _gameManager.State;
+            //? if the flag is not inside the active states, disable the input. (NOTE: OnAnyInput still is invoked.)
+            _gameplayInputsDisabled = (gameplayInputActiveStates & _gameManager.State) != _gameManager.State;
+            _pauseInputsDisabled = (pauseInputActiveStates & _gameManager.State) != _gameManager.State;
+
         }
 
         private void OnEnable() {
@@ -46,7 +57,9 @@ namespace Inputs{
             _playerActions.Gameplay.Left.canceled += LeftAction;
             _playerActions.Gameplay.Right.performed += RightAction;
             _playerActions.Gameplay.Right.canceled += RightAction;
-            
+
+            _playerActions.Pause.Pause.performed += PauseAction;
+            _playerActions.Pause.Pause.canceled += PauseAction;
         }
 
         private void OnDisable() {
@@ -62,7 +75,12 @@ namespace Inputs{
             _playerActions.Gameplay.Left.canceled -= LeftAction;
             _playerActions.Gameplay.Right.performed -= RightAction;
             _playerActions.Gameplay.Right.canceled -= RightAction;
+            
+            _playerActions.Pause.Pause.performed -= PauseAction;
+            _playerActions.Pause.Pause.canceled -= PauseAction;
         }
+
+        #region  GAMEPLAY ACTIONS
         private void LayEggAction(InputAction.CallbackContext context){
             OnAnyInput?.Invoke(context);
             if(_gameplayInputsDisabled) return;
@@ -105,5 +123,14 @@ namespace Inputs{
             if(_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
+        #endregion
+        
+        #region PAUSE 
+        private void PauseAction(InputAction.CallbackContext context) {           
+            OnAnyInput?.Invoke(context);
+            if(_pauseInputsDisabled) return;
+            OnPauseInput?.Invoke(context);
+        }
+        #endregion
     }
 }

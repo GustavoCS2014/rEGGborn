@@ -1,7 +1,8 @@
 using Inputs;
+using UI;
 using UnityEngine;
 
-public class CreditsUI : MonoBehaviour
+public class CreditsUI : MonoBehaviour, IUserInterface
 {
     private void OnEnable() {
         InputManager.OnAnyInput += OnAnyInputEvent;
@@ -14,10 +15,14 @@ public class CreditsUI : MonoBehaviour
     private void OnAnyInputEvent(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         if(context.canceled) return;
-        StopCredits();
+        Close();
     }
 
-    public void StopCredits(){
+    public void Show() {
+        gameObject.SetActive(true);
+    }
+
+    public void Close(){
         gameObject.SetActive(false);
     }
 }

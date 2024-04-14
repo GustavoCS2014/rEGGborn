@@ -1,8 +1,9 @@
 using Core;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NextLevelUI : MonoBehaviour {
+public class NextLevelUI : MonoBehaviour, IUserInterface {
     
     [SerializeField] private Transform nextLevelPanel;
     [SerializeField] private Button defaultButton;
@@ -18,5 +19,15 @@ public class NextLevelUI : MonoBehaviour {
         GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
         defaultButton.Select();
         nextLevelPanel.gameObject.SetActive(true);
+    }
+    
+    public void Show() {
+        nextLevelPanel.gameObject.SetActive(true);
+        defaultButton.Select();
+    }
+
+    public void Close()
+    {
+        nextLevelPanel.gameObject.SetActive(false);
     }
 }

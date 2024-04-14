@@ -1,10 +1,11 @@
 using System;
 using Core;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RespawnUI : MonoBehaviour {
+public class RespawnUI : MonoBehaviour, IUserInterface {
     
     [SerializeField] private Transform respawnPanel;
     [SerializeField] private Button defaultButton;
@@ -19,9 +20,18 @@ public class RespawnUI : MonoBehaviour {
 
     private void OnPlayerDeadEvent()
     {
-        Debug.Log($"ded");  
         GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
         respawnPanel.gameObject.SetActive(true);
         defaultButton.Select();
+    }
+
+    public void Show() {
+        respawnPanel.gameObject.SetActive(true);
+        defaultButton.Select();
+    }
+
+    public void Close()
+    {
+        respawnPanel.gameObject.SetActive(false);
     }
 }

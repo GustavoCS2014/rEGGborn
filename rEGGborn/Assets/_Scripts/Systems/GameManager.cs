@@ -109,10 +109,11 @@ namespace Core{
         public SceneSettings GetCurrentScene() => currentScene; 
 
         public void ChangeState(GameState state){
-            Debug.Log($"State {state}");
             State = state;
             currentState = State;
         }
+
+        public GameState GetCurrentState() => currentState;
 
         public void ExitGame(){
             Application.Quit();
