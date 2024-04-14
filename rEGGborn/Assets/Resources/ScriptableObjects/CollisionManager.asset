@@ -15,9 +15,12 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  LimitMask:
+    serializedVersion: 2
+    m_Bits: 1024
   wallMask:
     serializedVersion: 2
     m_Bits: 128
   interactableMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768

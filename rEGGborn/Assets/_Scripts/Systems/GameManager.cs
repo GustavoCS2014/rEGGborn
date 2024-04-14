@@ -2,22 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Attributes;
 using Inputs;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance {get; private set;}
 
-    public enum GameStates{
-        MainMenu,
-        Playing,
-        Paused,
-        GameOver,
-    }
-
     public static event Action<int> OnMovesIncreased;
     public int MoveCount {get; private set;}
-
+    [SerializeField, ReadOnly] private GameStates currentState;
     public GameStates State {get; private set;}
 
     private void Awake() {
@@ -39,6 +33,9 @@ public class GameManager : MonoBehaviour {
             
             break;
             case GameStates.Paused:
+                
+            break;
+            case GameStates.NextScene:
                 
             break;
             case GameStates.GameOver:

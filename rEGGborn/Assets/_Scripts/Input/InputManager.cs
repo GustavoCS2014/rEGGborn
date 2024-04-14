@@ -8,8 +8,11 @@ namespace Inputs{
         public static event Action<InputAction.CallbackContext> OnAnyInput;
         public static event Action<InputAction.CallbackContext> OnLayEgg;
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
+
+        [SerializeField] private GameStates gameplayInputActiveStates;
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
+        private GameManager _gameManager;
         private void Awake() {
             if(Instance){
                 Destroy(gameObject);
@@ -18,6 +21,18 @@ namespace Inputs{
             }
             _playerActions = new PlayerActions();
             _playerActions.Enable();
+        }
+
+        private void Start() {
+            _gameManager = GameManager.Instance;
+        }
+
+        private void Update(){
+            if((gameplayInputActiveStates & _gameManager.State) == _gameManager.State){
+                _playerActions.Gameplay.Enable();
+            }else{
+                _playerActions.Gameplay.Disable();
+            }
         }
 
         private void OnEnable() {
