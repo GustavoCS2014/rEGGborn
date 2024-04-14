@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utilities;
 
 public class TransitionHandler : MonoBehaviour {
@@ -10,6 +11,15 @@ public class TransitionHandler : MonoBehaviour {
     }
     public virtual void ChangeSceneNoTransition(){
         SceneTransitioner.Instance.ChangeScene(targetScene);
+    }
+    
+    public virtual void ReloadScene(){
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneTransitioner.Instance.LoadAndChangeScene(currentScene);
+    }
+    public virtual void ReloadSceneNoTransition(){
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneTransitioner.Instance.ChangeScene(currentScene);
     }
 
 }

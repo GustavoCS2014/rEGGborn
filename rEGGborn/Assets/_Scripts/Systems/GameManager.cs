@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
             case GameStates.Paused:
                 
             break;
-            case GameStates.NextScene:
+            case GameStates.NextOrRetryScene:
                 
             break;
             case GameStates.GameOver:

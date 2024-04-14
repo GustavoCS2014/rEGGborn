@@ -39,7 +39,7 @@ public class CollisionManager : ScriptableObject {
         //? if hit some interactable.
         if(collider){
             if(collider.TryGetComponent(out IGoal goal)){
-                goal.WinStage();
+                interactable = goal;
                 return CollisionType.Walkable;
             }
             if(collider.TryGetComponent(out IMovable movable)){

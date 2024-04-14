@@ -1,3 +1,4 @@
+using System;
 using Attributes;
 using Inputs;
 using Interfaces;
@@ -11,15 +12,18 @@ namespace Player{
         
         public enum PlayerState{
             Alive,
+            Ghost,
             Dead,
         }
+
+        public static event Action OnPlayerDeadEvent;
 
         public static PlayerController Instance {get; private set;}
         public bool EggLayed {get; private set;}
         public PlayerState state;
         [Header("Visuals"), Space(10)]
-        [SerializeField] private SpriteRenderer AliveSprite;
-        [SerializeField] private SpriteRenderer DeadSprite;
+        [SerializeField] private Transform AliveSprite;
+        [SerializeField] private Transform DeadSprite;
         [Header("LayerMasks"), Space(10)]
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private LayerMask wallMask;
@@ -43,29 +47,30 @@ namespace Player{
 
         private void Start() {
             _gameManager = GameManager.Instance;
-            // _collisionHandler = CollisionManager.Instance;
-            // InputManager.OnMove += OnMoveEvent;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
             GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
         }
 
         private void OnDestroy() {
-            // InputManager.OnMove -= OnMoveEvent;
             InputManager.OnLayEgg -= OnLayEggEvent;
             InputManager.OnMovePad -= OnMovePadEvent;
+            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
         }
 
         private void Update(){
             
             switch(state){
                 case PlayerState.Alive:
-                    AliveSprite.enabled = true;
-                    DeadSprite.enabled = false;
+                    AliveSprite.gameObject.SetActive(true);
+                    DeadSprite.gameObject.SetActive(false);
+                break;
+                case PlayerState.Ghost:
+                    DeadSprite.gameObject.SetActive(true);
+                    AliveSprite.gameObject.SetActive(false);
                 break;
                 case PlayerState.Dead:
-                    DeadSprite.enabled = true;
-                    AliveSprite.enabled = false;
+                    OnPlayerDeadEvent?.Invoke();
                 break;
             }
 
@@ -84,7 +89,7 @@ namespace Player{
             //? check Collisions to the block the player will move.
             _collisionType = _collisionManager.CheckCollisionAt(
                 (Vector2)transform.position + _direction,
-                state == PlayerState.Dead,
+                state == PlayerState.Ghost,
                 out IInteractable interactable
                 );
 
@@ -100,12 +105,13 @@ namespace Player{
                 GhostInteractable.Hatch(this);
             }
 
-            HandleMove(_direction);
+            HandleMove(_direction, out bool moved);
+            if(!moved) return;
             
             //? check collisions in the block the player is standing in after moving.
             _collisionManager.CheckCollisionAt(
                 transform.position,
-                state == PlayerState.Dead,
+                state == PlayerState.Ghost,
                 out IInteractable bodyInteractable
                 );
             
@@ -113,11 +119,17 @@ namespace Player{
                 var damager = interactable as IDamager;
                 damager.Damage(this);
             }
+            
+            if(bodyInteractable is IGoal){
+                var goal = interactable as IGoal;
+                goal.WinStage();
+            }
         }
 
         private void OnLayEggEvent(InputAction.CallbackContext context)
         {
             if(context.canceled) return;
+            if(state == PlayerState.Ghost) return;
             if(state == PlayerState.Dead) return;
             
             if(EggLayed){
@@ -131,25 +143,27 @@ namespace Player{
             _gameManager.IncreaseMoves();
         }
 
-        private void HandleMove(Vector3 direction){
+        private void HandleMove(Vector3 direction, out bool moved){
+            moved = false;
             if(_collisionType == CollisionType.Walkable){
                 transform.position += direction;
                 _gameManager.IncreaseMoves();
+                moved = true;
             }
         }
 
         public void Die(){
             if(state == PlayerState.Alive){
-                state = PlayerState.Dead;
+                state = PlayerState.Ghost;
                 return;
             }
-            if(state == PlayerState.Dead){
-                Destroy(gameObject);
+            if(state == PlayerState.Ghost){
+                state = PlayerState.Dead;
             }
         }
 
         public void Revive(){
-            if(state == PlayerState.Dead){
+            if(state == PlayerState.Ghost){
                 state = PlayerState.Alive;
                 return;
             }

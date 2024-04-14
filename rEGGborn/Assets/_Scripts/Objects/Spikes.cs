@@ -18,6 +18,10 @@ namespace Objects{
             SpikesUp.gameObject.SetActive(spikesOut);
         }
 
+        private void OnDestroy() {
+            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
+        }
+
         public GameObject GetGameObject() => gameObject;
 
         public Transform GetTransform() => transform;

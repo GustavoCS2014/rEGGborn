@@ -1,5 +1,5 @@
 namespace Interfaces{
-    public interface IGoal{
+    public interface IGoal : IInteractable{
         void WinStage();
     }
 }
