@@ -8,5 +8,8 @@ public class TransitionHandler : MonoBehaviour {
     public void ChangeScene(){
         SceneTransitioner.Instance.LoadAndChangeScene(targetScene);
     }
+    public void ChangeSceneNoTransition(){
+        SceneTransitioner.Instance.ChangeScene(targetScene);
+    }
 
 }
