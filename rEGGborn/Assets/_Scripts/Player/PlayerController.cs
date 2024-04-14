@@ -1,3 +1,4 @@
+using Attributes;
 using Inputs;
 using Interfaces;
 using Objects;
@@ -25,7 +26,7 @@ namespace Player{
         [SerializeField] private LayerMask interactableMask;
         [Header("Egg"), Space(10)]
         [SerializeField] private Egg egg;
-        [SerializeField] private Egg layedEgg;
+        [SerializeField, ReadOnly] private Egg layedEgg;
         private Vector2 _direction;
 
         private GameManager _gameManager;

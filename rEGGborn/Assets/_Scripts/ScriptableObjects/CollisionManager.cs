@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Interfaces;
-using Player;
 using UnityEngine;
-using Utilities;
 
 [CreateAssetMenu(fileName = "CollisionManager", menuName = "Collision Manager")]
 public class CollisionManager : ScriptableObject {

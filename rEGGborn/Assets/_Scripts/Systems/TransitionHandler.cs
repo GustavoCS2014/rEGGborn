@@ -5,10 +5,10 @@ public class TransitionHandler : MonoBehaviour {
 
     [SerializeField] private SceneField targetScene;
 
-    public void ChangeScene(){
+    public virtual void ChangeScene(){
         SceneTransitioner.Instance.LoadAndChangeScene(targetScene);
     }
-    public void ChangeSceneNoTransition(){
+    public virtual void ChangeSceneNoTransition(){
         SceneTransitioner.Instance.ChangeScene(targetScene);
     }
 

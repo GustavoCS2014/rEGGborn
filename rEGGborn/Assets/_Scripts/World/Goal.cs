@@ -7,5 +7,6 @@ public class Goal : MonoBehaviour, IGoal
     public void WinStage()
     {
         OnGoalEnter?.Invoke();
+        GameManager.Instance.ChangeState(GameStates.NextScene);
     }
 }
