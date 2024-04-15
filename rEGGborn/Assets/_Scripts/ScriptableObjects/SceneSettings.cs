@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Core {
@@ -14,12 +15,13 @@ namespace Core {
 
         [Space(20)]
         [Header("Specific to level Scenes (-1 means disabled)")]
-        [Tooltip("The level index (used while storing move counts).")]
-        [SerializeField] private int levelIndex = -1;
-        public uint? LevelIndex => levelIndex < 0 ? null: (uint)levelIndex;
     
         [Tooltip("The minimum requiered moves to complete the level.")]
         [SerializeField] private int minimumMoves = -1;
-        public uint? MinimumMoves => minimumMoves < 0 ? null: (uint)levelIndex;
+        public uint? MinimumMoves => minimumMoves < 0 ? null: (uint)minimumMoves;
+
+        [Tooltip("The Max amount of moves the player can make when dead.")]
+        [SerializeField] private int ghostMaxMoves = -1;
+        public uint? GhostMaxMoves => ghostMaxMoves < 0 ? null: (uint)ghostMaxMoves;
     }
 }

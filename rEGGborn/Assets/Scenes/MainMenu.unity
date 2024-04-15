@@ -1908,8 +1908,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1678389378}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
+        m_TargetAssemblyTypeName: Core.GameManager, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -3942,17 +3942,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673473831}
   m_CullTransparentMesh: 1
---- !u!114 &1678389378 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7005049857344966862, guid: 30ac8ac8876cf784aab6ac6be22e70a2, type: 3}
-  m_PrefabInstance: {fileID: 417833105}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5db46edeba277b4498989bd228d929c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1680957760
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,7 +4934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01287af65cd3c7d458436fb26518c1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: {fileID: 11400000, guid: 041cbda6e04cd044fae5b2b2a099f609, type: 2}
+  targetScene: {fileID: 11400000, guid: b0adaeb552379674aaa6ee6679444ee4, type: 2}
 --- !u!95 &2063109951
 Animator:
   serializedVersion: 5

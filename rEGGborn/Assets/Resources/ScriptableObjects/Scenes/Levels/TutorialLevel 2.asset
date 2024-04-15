@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ee9f0f44eba6264a80fbdc22265a353, type: 3}
-  m_Name: TutorialLevel_1
+  m_Name: TutorialLevel 2
   m_EditorClassIdentifier: 
   scene:
-    m_SceneAsset: {fileID: 102900000, guid: 7e6c42ca1e74b6a4ab6d596529760b7b, type: 3}
-    m_SceneName: Level1
+    m_SceneAsset: {fileID: 102900000, guid: 5ed49975fb135094a9df9fbf2c8fcd60, type: 3}
+    m_SceneName: Tutorial_2
   startingState: 2
-  levelIndex: 0
-  minimumMoves: 0
+  minimumMoves: 22
+  ghostMaxMoves: 0

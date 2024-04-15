@@ -463,6 +463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spikesOut: 0
-  timeOut: 2
-  timeIn: 2
+  timeOut: 1
+  timeIn: 1
   SpikesUp: {fileID: 8410191809836871916}
+  stopColliderMask:
+    serializedVersion: 2
+    m_Bits: 256

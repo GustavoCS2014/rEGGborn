@@ -10,6 +10,7 @@ namespace Objects{
         [SerializeField] private int timeOut;
         [SerializeField] private int timeIn;
         [SerializeField] private Transform SpikesUp;
+        [SerializeField] private LayerMask stopColliderMask;
 
         private int _counter;
 
@@ -17,6 +18,16 @@ namespace Objects{
             GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
 
             SpikesUp.gameObject.SetActive(spikesOut);
+        }
+
+        private void Update(){
+            float checkSize = .2f;
+            if(Physics2D.OverlapCircle(transform.position, checkSize, stopColliderMask)) {
+                GetComponent<Collider2D>().enabled = false;
+                return;
+            }
+            GetComponent<Collider2D>().enabled = true;
+            
         }
 
         private void OnDestroy() {
@@ -39,8 +50,8 @@ namespace Objects{
                 _counter = 0;
                 spikesOut = !spikesOut;
             }
-
             SpikesUp.gameObject.SetActive(spikesOut);
+
         }
 
         public void Damage(PlayerController player)

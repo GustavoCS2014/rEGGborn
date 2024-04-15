@@ -45,5 +45,11 @@ namespace Objects{
         }
 
         public bool IsSender() => true;
+
+        
+        private void OnDrawGizmos() {
+            Vector3Int pos = Vector3Int.RoundToInt(transform.position);
+            transform.position = pos;
+        }
     }
 }

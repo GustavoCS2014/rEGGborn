@@ -11,11 +11,11 @@ public class RespawnUI : MonoBehaviour, IUserInterface {
     [SerializeField] private Button defaultButton;
 
     private void Start() {
-        PlayerController.OnPlayerDeadEvent += OnPlayerDeadEvent;
+        PlayerController.OnPlayerDead += OnPlayerDeadEvent;
     }
 
     private void OnDestroy() {
-        PlayerController.OnPlayerDeadEvent -= OnPlayerDeadEvent;
+        PlayerController.OnPlayerDead -= OnPlayerDeadEvent;
     }
 
     private void OnPlayerDeadEvent()

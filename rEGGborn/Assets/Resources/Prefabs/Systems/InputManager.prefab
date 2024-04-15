@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayInputActiveStates: 2
+  pauseInputActiveStates: 7

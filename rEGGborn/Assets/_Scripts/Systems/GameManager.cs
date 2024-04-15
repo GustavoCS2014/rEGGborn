@@ -9,7 +9,7 @@ namespace Core{
 
         public static GameManager Instance {get; private set;}
         public int MoveCount {get; private set;}
-        public Dictionary<uint, int> MoveCountHistory = new Dictionary<uint, int>(); 
+        public int TotalMoveCount {get; private set;}
         public GameState State {get; private set;}
         [Tooltip("Only use when the current scene isn't a level.")]
         [SerializeField] private SceneSettings startingScene;
@@ -59,8 +59,7 @@ namespace Core{
         /// Resets the move count and stores the last movecount in the history.
         /// </summary>
         public void ResetMoveCount(){
-            if(currentScene.LevelIndex is not null)
-                MoveCountHistory.TryAdd(currentScene.LevelIndex.Value, MoveCount);
+            TotalMoveCount += MoveCount;
             MoveCount = 0;
         }
 
@@ -73,32 +72,29 @@ namespace Core{
         /// Get current move count;
         /// </summary>
         public int GetMoveCount() => MoveCount;
+
+        /// <summary>
+        /// Gets the minimum moves requiered to complete the level.
+        /// </summary>
         public int GetMinimumMoves(){
             if(currentScene.MinimumMoves is null) return -1;
             return (int)currentScene.MinimumMoves.Value;
         }
 
         /// <summary>
-        /// Get move count at the game specified.
+        /// Gets the max amount of moves the player can make when ghost.
         /// </summary>
-        /// <param name="game">Game index</param>
-        public int GetMoveCountAtGame(uint game) {
-            MoveCountHistory.TryGetValue(game, out int moves);
-            return moves;
+        /// <returns></returns>
+        public int GetMaxGhostMoves(){
+            if(currentScene.GhostMaxMoves is null) return -1;
+            return (int)currentScene.GhostMaxMoves.Value;
         }
 
         /// <summary>
         /// Get the sum of all moves across games.
         /// </summary>
         /// <returns></returns>
-        public int GetTotalMoveCount() {
-            int moves = 0;
-            for(uint i = 0; i < MoveCountHistory.Count; i++){
-                MoveCountHistory.TryGetValue(i, out int moveCount);
-                moves += moveCount;
-            }
-            return moves;
-        }
+        public int GetTotalMoveCount() => TotalMoveCount;
 
         public void IncreaseMoves(){
             MoveCount ++;

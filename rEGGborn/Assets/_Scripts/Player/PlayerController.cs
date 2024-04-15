@@ -17,7 +17,9 @@ namespace Player{
             Dead,
         }
 
-        public static event Action OnPlayerDeadEvent;
+        public static event Action OnPlayerDead;
+        public static event Action<int> OnGhostMove;
+        public static event Action OnPlayerHatched;
         public static event Action OnEggLayed;
 
         public static PlayerController Instance {get; private set;}
@@ -33,6 +35,7 @@ namespace Player{
         [Header("Egg"), Space(10)]
         [SerializeField] private Egg egg;
         [SerializeField, ReadOnly] private Egg layedEgg;
+        [SerializeField, ReadOnly] private int ghostMoves;
         private Vector2 _direction;
 
         private GameManager _gameManager;
@@ -64,6 +67,7 @@ namespace Player{
             
             switch(state){
                 case PlayerState.Alive:
+                    ghostMoves = -1;
                     AliveSprite.gameObject.SetActive(true);
                     DeadSprite.gameObject.SetActive(false);
                 break;
@@ -126,6 +130,8 @@ namespace Player{
                 var goal = interactable as IGoal;
                 goal.WinStage();
             }
+
+            HandleGhostMoves();
         }
 
         private void OnLayEggEvent(InputAction.CallbackContext context)
@@ -155,20 +161,30 @@ namespace Player{
             }
         }
 
+        private void HandleGhostMoves(){
+            if(state != PlayerState.Ghost) return;
+            OnGhostMove?.Invoke(ghostMoves);
+            ghostMoves--;
+            if(ghostMoves < 0) Die();
+
+        }
+
         public void Die(){
             if(state == PlayerState.Alive){
                 state = PlayerState.Ghost;
+                ghostMoves = _gameManager.GetMaxGhostMoves();
                 return;
             }
             if(state == PlayerState.Ghost){
                 state = PlayerState.Dead;
-                OnPlayerDeadEvent?.Invoke();
+                OnPlayerDead?.Invoke();
             }
         }
 
         public void Revive(){
             if(state == PlayerState.Ghost){
                 state = PlayerState.Alive;
+                OnPlayerHatched?.Invoke();
                 return;
             }
         }
@@ -184,6 +200,8 @@ namespace Player{
             // }
         }
         private void OnDrawGizmos() {
+            Vector3Int pos = Vector3Int.RoundToInt(transform.position);
+            transform.position = pos;
         }
         #endregion
 

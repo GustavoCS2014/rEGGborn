@@ -31,7 +31,8 @@ public class CollisionManager : ScriptableObject {
                 return CollisionType.Walkable;
             }
             if(collider.TryGetComponent(out IDamager damager)){
-                interactable = damager;
+                //! uncomment this line if you want the ghost to recieve damage.
+                // interactable = damager;
                 return CollisionType.Walkable;
             }
             return CollisionType.Walkable;
@@ -47,7 +48,7 @@ public class CollisionManager : ScriptableObject {
                 return CollisionType.Wall;
             }
             if(collider.TryGetComponent(out IEgg egg)){
-                return CollisionType.Wall;
+                return CollisionType.Walkable;
             }
             if(collider.TryGetComponent(out IDamager damager)){
                 interactable = damager;

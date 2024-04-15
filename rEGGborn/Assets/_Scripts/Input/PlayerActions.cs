@@ -71,6 +71,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WaitTurn"",
+                    ""type"": ""Button"",
+                    ""id"": ""88bb09a7-774d-49ab-8be8-77855afa1b64"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -236,6 +245,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2993f1c-b714-47e1-a17d-cd30f138d48a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WaitTurn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -653,6 +673,39 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""137a8e80-5e63-4298-ba4a-9e646ad50a68"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38754453-7fc3-44e5-8c58-6a4f47580f5f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""acc4f0de-aa28-4576-9bc5-a6697d228b02"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7d8dac98-adb5-40ac-87cd-9d91f694298f"",
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
@@ -812,6 +865,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Gameplay_Down = m_Gameplay.FindAction("Down", throwIfNotFound: true);
         m_Gameplay_Left = m_Gameplay.FindAction("Left", throwIfNotFound: true);
         m_Gameplay_Right = m_Gameplay.FindAction("Right", throwIfNotFound: true);
+        m_Gameplay_WaitTurn = m_Gameplay.FindAction("WaitTurn", throwIfNotFound: true);
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_Pause = m_Pause.FindAction("Pause", throwIfNotFound: true);
@@ -893,6 +947,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Down;
     private readonly InputAction m_Gameplay_Left;
     private readonly InputAction m_Gameplay_Right;
+    private readonly InputAction m_Gameplay_WaitTurn;
     public struct GameplayActions
     {
         private @PlayerActions m_Wrapper;
@@ -902,6 +957,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Down => m_Wrapper.m_Gameplay_Down;
         public InputAction @Left => m_Wrapper.m_Gameplay_Left;
         public InputAction @Right => m_Wrapper.m_Gameplay_Right;
+        public InputAction @WaitTurn => m_Wrapper.m_Gameplay_WaitTurn;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -926,6 +982,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Right.started += instance.OnRight;
             @Right.performed += instance.OnRight;
             @Right.canceled += instance.OnRight;
+            @WaitTurn.started += instance.OnWaitTurn;
+            @WaitTurn.performed += instance.OnWaitTurn;
+            @WaitTurn.canceled += instance.OnWaitTurn;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -945,6 +1004,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Right.started -= instance.OnRight;
             @Right.performed -= instance.OnRight;
             @Right.canceled -= instance.OnRight;
+            @WaitTurn.started -= instance.OnWaitTurn;
+            @WaitTurn.performed -= instance.OnWaitTurn;
+            @WaitTurn.canceled -= instance.OnWaitTurn;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1142,6 +1204,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnDown(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
+        void OnWaitTurn(InputAction.CallbackContext context);
     }
     public interface IPauseActions
     {

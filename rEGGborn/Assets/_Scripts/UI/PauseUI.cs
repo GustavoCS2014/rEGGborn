@@ -3,6 +3,7 @@ using Core;
 using Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace UI{
     public class PauseUI : MonoBehaviour, IUserInterface
@@ -10,6 +11,7 @@ namespace UI{
         public static event Action OnGamePaused;
         public static event Action OnGameResumed;
         [SerializeField] private Transform pausePanel;
+        [SerializeField] private Button defaultButton;
         private GameState _lastState;
 
         private void OnEnable() {
@@ -37,6 +39,7 @@ namespace UI{
 
         public void Show() {
             pausePanel.gameObject.SetActive(true);
+            defaultButton.Select();
             _lastState = GameManager.Instance.GetCurrentState();
             GameManager.Instance.ChangeState(GameState.Paused);
             OnGamePaused?.Invoke();

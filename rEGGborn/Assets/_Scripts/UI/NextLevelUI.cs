@@ -17,8 +17,7 @@ public class NextLevelUI : MonoBehaviour, IUserInterface {
     private void OnGoalEnterEvent()
     {
         GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
-        defaultButton.Select();
-        nextLevelPanel.gameObject.SetActive(true);
+        Show();
     }
     
     public void Show() {
