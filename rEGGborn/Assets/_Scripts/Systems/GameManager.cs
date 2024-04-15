@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Core{
     public class GameManager : MonoBehaviour {
         public static event Action<int> OnMovesIncreased;
+        public static event Action<GameState> OnStateChanged;
 
         public static GameManager Instance {get; private set;}
         public int MoveCount {get; private set;}
@@ -28,8 +29,11 @@ namespace Core{
 
         private void Start() {
             currentScene = startingScene;
-            State = currentScene.StartingState;
-            currentState = State;
+            ChangeState(currentScene.StartingState);
+            OnStateChanged?.Invoke(currentState);
+
+            // State = currentScene.StartingState;
+            // currentState = State;
         }
 
         private void OnDestroy() {
@@ -111,6 +115,7 @@ namespace Core{
         public void ChangeState(GameState state){
             State = state;
             currentState = State;
+            // OnStateChanged?.Invoke(currentState);
         }
 
         public GameState GetCurrentState() => currentState;

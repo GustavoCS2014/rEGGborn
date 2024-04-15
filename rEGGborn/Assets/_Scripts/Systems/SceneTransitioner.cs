@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,7 @@ namespace Utilities {
 
 
         public static SceneTransitioner Instance {get; private set;}
+        public static event Action OnFadeInEnded;
 
         const string FADE_IN = "FADE_IN";
         const string FADE_OUT = "FADE_OUT";
@@ -26,7 +28,7 @@ namespace Utilities {
         private void Update(){
             // if(_transition is not null) Debug.Log($"{_transition.progress * 100}%");
             if(!_fadeInEnded) return;
-            if(_transition.progress > .85f){
+            if(_transition.progress > .85f){         
                 transitionAnimator.SetTrigger(FADE_OUT);
                 _transition.allowSceneActivation = true;
                 _fadeInEnded = false;
@@ -35,6 +37,7 @@ namespace Utilities {
 
         public void EndedFadeIn(){
             _fadeInEnded = true;
+            OnFadeInEnded?.Invoke();
         }
 
         /// <summary>

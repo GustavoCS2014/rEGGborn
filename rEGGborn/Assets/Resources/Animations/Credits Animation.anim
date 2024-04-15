@@ -313,9 +313,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 10.5
-    functionName: StopCredits
+    functionName: Close
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: cbd8b7713c6dd504bad6153f7ccf71c4, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
