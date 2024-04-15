@@ -18,6 +18,7 @@ namespace Player{
         }
 
         public static event Action OnPlayerDeadEvent;
+        public static event Action OnEggLayed;
 
         public static PlayerController Instance {get; private set;}
         public bool EggLayed {get; private set;}
@@ -141,6 +142,7 @@ namespace Player{
     
             EggLayed = true;
             layedEgg = Instantiate(egg, transform.position, quaternion.identity);
+            OnEggLayed?.Invoke();
             _gameManager.IncreaseMoves();
         }
 
