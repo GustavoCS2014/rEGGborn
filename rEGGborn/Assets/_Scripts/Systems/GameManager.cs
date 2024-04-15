@@ -73,6 +73,10 @@ namespace Core{
         /// Get current move count;
         /// </summary>
         public int GetMoveCount() => MoveCount;
+        public int GetMinimumMoves(){
+            if(currentScene.MinimumMoves is null) return -1;
+            return (int)currentScene.MinimumMoves.Value;
+        }
 
         /// <summary>
         /// Get move count at the game specified.
