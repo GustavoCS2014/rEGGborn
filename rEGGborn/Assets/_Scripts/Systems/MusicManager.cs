@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using Core;
 using Music;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Rendering;
 using Utilities;
 
 public class MusicManager : MonoBehaviour {
     public static event Action<float> OnVolumeChanged;
+
+    public const string MUSIC_LEVEL = "MusicLevelKey";
 
     public static MusicManager Instance {get; private set;}
     
@@ -27,6 +25,9 @@ public class MusicManager : MonoBehaviour {
             Instance = this;
             DontDestroyOnLoad(this);
         }
+
+        musicVolume = PlayerPrefs.GetFloat(MUSIC_LEVEL, 0.5f);
+
     }
 
 
@@ -47,14 +48,20 @@ public class MusicManager : MonoBehaviour {
     public void IncreaseVolume(float value){
         musicVolume += value;
         OnVolumeChanged?.Invoke(musicVolume);
+        PlayerPrefs.SetFloat(MUSIC_LEVEL, musicVolume);
+        PlayerPrefs.Save();
     }
     public void DecreaseVolume(float value){
         musicVolume -= value;
         OnVolumeChanged?.Invoke(musicVolume);
+        PlayerPrefs.SetFloat(MUSIC_LEVEL, musicVolume);
+        PlayerPrefs.Save();
     }
     public void ChangeMusicVolume(float value){
         musicVolume = value;
         OnVolumeChanged?.Invoke(musicVolume);
+        PlayerPrefs.SetFloat(MUSIC_LEVEL, musicVolume);
+        PlayerPrefs.Save();
     }
 
     private void PlayStateMusic(GameState state){

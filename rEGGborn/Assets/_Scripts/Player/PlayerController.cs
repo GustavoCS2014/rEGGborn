@@ -22,6 +22,7 @@ namespace Player{
         public static event Action<int> OnGhostMove;
         public static event Action OnPlayerHatched;
         public static event Action OnEggLayed;
+        public static event Action OnShowRespawnHint;
 
         public static PlayerController Instance {get; private set;}
         public bool EggLayed {get; private set;}
@@ -75,6 +76,9 @@ namespace Player{
                 case PlayerState.Ghost:
                     DeadSprite.gameObject.SetActive(true);
                     AliveSprite.gameObject.SetActive(false);
+                    if(!EggLayed){
+                        OnShowRespawnHint?.Invoke();
+                    }
                 break;
                 case PlayerState.Dead:
                     

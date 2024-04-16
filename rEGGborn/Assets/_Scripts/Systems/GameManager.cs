@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Attributes;
+using UI;
 using UnityEngine;
 
 namespace Core{
@@ -16,6 +17,8 @@ namespace Core{
         [SerializeField] private SceneSettings startingScene;
         [SerializeField, ReadOnly] private GameState currentState;
         [SerializeField, ReadOnly] private SceneSettings currentScene;
+        [SerializeField] private RestartHintUI hintUI;
+
 
         private void Awake() {
             if(Instance){
@@ -31,6 +34,7 @@ namespace Core{
             currentScene = startingScene;
             ChangeState(currentScene.StartingState);
             OnStateChanged?.Invoke(currentState);
+            Cursor.visible = false;
 
             // State = currentScene.StartingState;
             // currentState = State;
@@ -43,12 +47,13 @@ namespace Core{
             switch(State){
                 case GameState.MainMenu:
                     
-                break;
+                break; 
+
                 case GameState.Playing:
-                
                 break;
+                
                 case GameState.Paused:
-                    
+                    hintUI.Close();
                 break;
                 case GameState.NextOrRetryScene:
                     
