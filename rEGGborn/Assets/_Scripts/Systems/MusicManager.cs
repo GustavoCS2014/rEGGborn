@@ -2,23 +2,23 @@ using System;
 using System.Collections;
 using Core;
 using Music;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using Utilities;
 
 public class MusicManager : MonoBehaviour {
+    public static event Action<float> OnVolumeChanged;
+
     public static MusicManager Instance {get; private set;}
     
-    public float MusicVolume {get; private set;}
-
+    [SerializeField, Range(0,1)] private float musicVolume;
     [SerializeField] private AudioSource musicEmmiter;
-    [SerializeField] private AudioSource secondMusicEmmiter;
     [SerializeField] private MusicRefSO musicSources;
     [SerializeField] private float musicTransitionTime;
 
     private AudioClip _currentMusic;
-    private GameManager _gameManager;
 
     private void Awake() {
         if(Instance){
@@ -29,34 +29,36 @@ public class MusicManager : MonoBehaviour {
         }
     }
 
+
     private void Start() {
-        if(GameManager.Instance)
-            _gameManager = GameManager.Instance;
-
-        TransitionHandler.OnSceneChanged += OnSceneChangedEvent;
-        GameManager.OnStateChanged += OnStateChangedEvent;
-        // PlayStateMusic(_gameManager.State);
+        TransitionHandler.OnSceneChanged += PlayStateMusic;
+        GameManager.OnStateChanged += PlayStateMusic;
     }
-
 
     private void OnDisable() {
-        GameManager.OnStateChanged -= OnStateChangedEvent;
-        TransitionHandler.OnSceneChanged -= OnSceneChangedEvent;
+        GameManager.OnStateChanged -= PlayStateMusic;
+        TransitionHandler.OnSceneChanged -= PlayStateMusic;
+    }
+    private void Update(){
+        musicEmmiter.volume = musicVolume;
     }
 
-    private void OnSceneChangedEvent(GameState state)
-    {
-        PlayStateMusic(state);
+    public float GetMusicVolume() => musicVolume;
+    public void IncreaseVolume(float value){
+        musicVolume += value;
+        OnVolumeChanged?.Invoke(musicVolume);
     }
-
-    public void ChangeMusicVolume(float value) => MusicVolume = value;
-
-    private void OnStateChangedEvent(GameState state)
-    {
-        PlayStateMusic(state);
+    public void DecreaseVolume(float value){
+        musicVolume -= value;
+        OnVolumeChanged?.Invoke(musicVolume);
+    }
+    public void ChangeMusicVolume(float value){
+        musicVolume = value;
+        OnVolumeChanged?.Invoke(musicVolume);
     }
 
     private void PlayStateMusic(GameState state){
+        Debug.Log($"{state}");
         if(state == GameState.None) return;
         if(state == GameState.MainMenu){
             ChangeMusic(musicSources.MainMenuMusic);
@@ -71,12 +73,11 @@ public class MusicManager : MonoBehaviour {
 
     private void ChangeMusic(AudioClip music){
         if(music == _currentMusic) return;
+        
         _currentMusic = music;
         musicEmmiter.clip = _currentMusic;
         musicEmmiter.Play();
+        
     }
 
-    // private IEnumerator MusicTranstion(AudioSource from, AudioSource to){
-        
-    // }
 }

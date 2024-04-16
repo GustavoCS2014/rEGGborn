@@ -539,7 +539,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6031457541535841139, guid: 53a26448effc6fd46b7007d65a5f4b36, type: 3}
+      propertyPath: secondMusicEmmiter
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7710206629422253476, guid: 53a26448effc6fd46b7007d65a5f4b36, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

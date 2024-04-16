@@ -20,6 +20,11 @@ namespace Objects{
             SpikesUp.gameObject.SetActive(spikesOut);
         }
 
+        private void OnDisable() {
+            
+            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
+        }
+
         private void Update(){
             float checkSize = .2f;
             if(Physics2D.OverlapCircle(transform.position, checkSize, stopColliderMask)) {
@@ -28,10 +33,6 @@ namespace Objects{
             }
             GetComponent<Collider2D>().enabled = true;
             
-        }
-
-        private void OnDestroy() {
-            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
         }
 
         public GameObject GetGameObject() => gameObject;
@@ -65,5 +66,7 @@ namespace Objects{
             Vector3Int pos = Vector3Int.RoundToInt(transform.position);
             transform.position = pos;
         }
+
+        public bool IsDamaging() => spikesOut;
     }
 }

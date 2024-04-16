@@ -1,5 +1,6 @@
 using System;
 using Core;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +13,15 @@ namespace Inputs{
 
         public static event Action<InputAction.CallbackContext> OnPauseInput;
 
+        public static event Action<InputAction.CallbackContext> OnCancelInput;
+
         [Header("Input Activation States")]
         [SerializeField] private GameState gameplayInputActiveStates;
         private bool _gameplayInputsDisabled;
         [SerializeField] private GameState pauseInputActiveStates;
         private bool _pauseInputsDisabled;
+        [SerializeField] private GameState uIInputActiveStates;
+        private bool _uIInputsDisabled;
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private GameManager _gameManager;
@@ -41,6 +46,7 @@ namespace Inputs{
             //? if the flag is not inside the active states, disable the input. (NOTE: OnAnyInput still is invoked.)
             _gameplayInputsDisabled = (gameplayInputActiveStates & _gameManager.State) != _gameManager.State;
             _pauseInputsDisabled = (pauseInputActiveStates & _gameManager.State) != _gameManager.State;
+            _uIInputsDisabled = (uIInputActiveStates & _gameManager.State) != _gameManager.State;
 
         }
 
@@ -60,6 +66,9 @@ namespace Inputs{
 
             _playerActions.Pause.Pause.performed += PauseAction;
             _playerActions.Pause.Pause.canceled += PauseAction;
+
+            _playerActions.UI.Cancel.performed  += CancelAction;
+            _playerActions.UI.Cancel.canceled += CancelAction;
         }
 
         private void OnDisable() {
@@ -78,7 +87,12 @@ namespace Inputs{
             
             _playerActions.Pause.Pause.performed -= PauseAction;
             _playerActions.Pause.Pause.canceled -= PauseAction;
+        
+            _playerActions.UI.Cancel.performed  -= CancelAction;
+            _playerActions.UI.Cancel.canceled -= CancelAction;
+            
         }
+
 
         #region  GAMEPLAY ACTIONS
         private void LayEggAction(InputAction.CallbackContext context){
@@ -131,6 +145,15 @@ namespace Inputs{
             if(_pauseInputsDisabled) return;
             OnPauseInput?.Invoke(context);
         }
+        #endregion
+
+        #region  UI
+        private void CancelAction(InputAction.CallbackContext context){
+            OnAnyInput?.Invoke(context);
+            if(_uIInputsDisabled) return;
+            OnCancelInput?.Invoke(context);
+        }
+
         #endregion
     }
 }

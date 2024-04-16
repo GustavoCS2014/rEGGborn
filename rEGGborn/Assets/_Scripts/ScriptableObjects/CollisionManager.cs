@@ -32,7 +32,7 @@ public class CollisionManager : ScriptableObject {
             }
             if(collider.TryGetComponent(out IDamager damager)){
                 //! uncomment this line if you want the ghost to recieve damage.
-                // interactable = damager;
+                interactable = damager;
                 return CollisionType.Walkable;
             }
             return CollisionType.Walkable;

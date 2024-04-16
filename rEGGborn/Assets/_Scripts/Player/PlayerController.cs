@@ -6,6 +6,7 @@ using Interfaces;
 using Objects;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.InputSystem;
 
 namespace Player{
@@ -89,7 +90,7 @@ namespace Player{
         private void OnMovePadEvent(InputAction.CallbackContext context, Vector2 input)
         {
             if(context.canceled) return;
-
+            bool pushed = false;
             _direction = input;
 
             //? check Collisions to the block the player will move.
@@ -100,19 +101,20 @@ namespace Player{
                 );
 
             if(interactable is IMovable){
-                var movable = interactable as IMovable;
+                IMovable movable = interactable as IMovable;
                 movable.PushTo(_direction);
                 _gameManager.IncreaseMoves();
+                pushed = true;
             }
             if(interactable is IEgg){
-                var GhostInteractable = interactable as IEgg;
+                IEgg GhostInteractable = interactable as IEgg;
                 layedEgg = null;
                 EggLayed = false;
                 GhostInteractable.Hatch(this);
             }
 
             HandleMove(_direction, out bool moved);
-            if(!moved) return;
+            if(!moved && !pushed) return;
             
             //? check collisions in the block the player is standing in after moving.
             _collisionManager.CheckCollisionAt(
@@ -122,12 +124,15 @@ namespace Player{
                 );
             
             if(bodyInteractable is IDamager){
-                var damager = interactable as IDamager;
-                damager.Damage(this);
+                IDamager damager = bodyInteractable as IDamager;
+                if(damager.IsDamaging()){
+                    if(state == PlayerState.Alive) 
+                        damager.Damage(this);
+                }
             }
             
             if(bodyInteractable is IGoal){
-                var goal = interactable as IGoal;
+                IGoal goal = bodyInteractable as IGoal;
                 goal.WinStage();
             }
 
