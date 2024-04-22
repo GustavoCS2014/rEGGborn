@@ -1,10 +1,12 @@
 using System;
 using Attributes;
 using Core;
+using DG.Tweening;
 using Inputs;
 using Objects;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.InputSystem;
 
 namespace Player{
@@ -94,8 +96,10 @@ namespace Player{
             );
 
             if(nextObj is not null){
-                //? interacting with the object, SuccessfulInput will be called if there's a successful interaction.
-                nextObj.Interact(this);
+                if(nextObj is not Spikes){
+                    //? interacting with the object, SuccessfulInput will be called if there's a successful interaction.
+                    nextObj.Interact(this);
+                } 
             }
 
 
@@ -139,7 +143,8 @@ namespace Player{
 
         #region PLAYER METHODS
         private void Move(Vector3 direction){
-            transform.position += direction;
+            transform.DOMove(transform.position + direction, TickManager.Instance.TickDuration).SetEase(Ease.InOutSine);
+            // transform.position += direction;
         }
 
         private void HandleGhostMoveCount(){

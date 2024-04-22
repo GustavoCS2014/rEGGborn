@@ -11,6 +11,7 @@ namespace Objects{
         [SerializeField] private bool spikesUp;
         [SerializeField] private Transform SpikesUp;
         [SerializeField] private NewCollisionManager collisionManager;
+        private int _order;
 
         protected override void Start(){
             base.Start();
@@ -27,9 +28,13 @@ namespace Objects{
 
         private void OnSuccessfulActionEvent(){
             spikesUp = !spikesUp;
+            Debug.Log($"{_order}.- GoingDown");
+            _order++;
             SpikesUp.gameObject.SetActive(spikesUp);
         }
         public override void Interact(PlayerController player){
+            Debug.Log($"{_order}.- SpikesUp");
+            _order++;
             if(spikesUp){
                 player.Die();
             }

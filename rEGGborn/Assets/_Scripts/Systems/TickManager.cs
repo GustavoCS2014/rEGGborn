@@ -7,7 +7,8 @@ namespace System{
         public static TickManager Instance {get; private set;}
 
         public static event Action<int> OnTick;
-        [SerializeField] private float tickTime;
+        [SerializeField] private float tickDuration;
+        public float TickDuration => tickDuration;
         [SerializeField, ReadOnly] public int TickCount;
         [SerializeField, ReadOnly] public bool PlayerActed; 
         private float _timer;
@@ -32,7 +33,7 @@ namespace System{
 
         private void Update(){
             if(!PlayerActed) return;
-            if(_timer > tickTime){
+            if(_timer > tickDuration){
                 _timer = 0;
                 TickCount++;
                 OnTick?.Invoke(TickCount);
@@ -46,6 +47,7 @@ namespace System{
             PlayerActed = true;
             GameManager.Instance.ChangeState(GameState.TickCooldown);
         }
+
 
     }
 }
