@@ -19,8 +19,8 @@ namespace Objects{
             );
 
             //? if there's something other than a portal on this tile, can't lay the egg. 
-            if(bodyObj is not null && bodyObj is not Portal) return true;
-            return false;
+            if(bodyObj is not null && bodyObj is not Portal) return false;
+            return true;
         }
 
         public override void Interact(PlayerController player){

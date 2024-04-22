@@ -21,6 +21,12 @@ namespace Objects{
             OnTeleport += OnTeleportEvent;
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            OnTeleport -= OnTeleportEvent;
+        }
+
         private void OnTeleportEvent(uint LinkKey, GridObject Subject)
         {
             if(sender) return;

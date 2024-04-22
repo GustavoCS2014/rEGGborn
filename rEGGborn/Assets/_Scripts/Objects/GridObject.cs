@@ -26,7 +26,7 @@ namespace Objects{
             TickManager.OnTick += OnTickEvent;
         }
 
-        private void OnDestroy() {
+        protected virtual void OnDestroy() {
             TickManager.OnTick -= OnTickEvent;
         }
 

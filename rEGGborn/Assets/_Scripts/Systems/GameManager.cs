@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Attributes;
+using Player;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,17 +38,18 @@ namespace Core{
             ChangeState(currentScene.StartingState);
             OnStateChanged?.Invoke(currentState);
 
-            TickManager.OnTick += OnTickEvent;
+            PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
 
             // State = currentScene.StartingState;
             // currentState = State;
         }
 
         private void OnDestroy() {
-            TickManager.OnTick += OnTickEvent;
+            PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
         }
 
-        private void OnTickEvent(int ticks) => IncreaseMoves();
+        private void OnSuccessfulActionEvent() => IncreaseMoves();
+
 
         private void Update(){
             switch(State){

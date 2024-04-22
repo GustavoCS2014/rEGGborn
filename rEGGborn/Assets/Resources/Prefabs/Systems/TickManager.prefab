@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce13880c299eab24385688eb23753e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickTime: 0.5
+  tickTime: 0.2
   TickCount: 0
   PlayerActed: 0

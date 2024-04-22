@@ -14,7 +14,7 @@ namespace Player{
         public static event Action<int> OnGhostMove;
         public static event Action OnPlayerHatched;
         public static event Action OnShowRespawnHint;
-        public static event Action OnSuccessfulInput;
+        public static event Action OnSuccessfulAction;
 
         public static PlayerController Instance {get; private set;}
         public bool EggLaid {get; private set;}
@@ -103,7 +103,7 @@ namespace Player{
             if(collision is not CollisionType.Walkable) return;
             Move(_direction);
             HandleGhostMoveCount();
-            SuccessfulInput();
+            SuccessfulAction();
         }
 
 
@@ -115,7 +115,7 @@ namespace Player{
 
             if(Egg.CanBeLaid(transform.position, IsGhost(), _newCollisionManager)){
                 LayEgg();
-                SuccessfulInput();
+                SuccessfulAction();
             }
         }
         
@@ -132,7 +132,7 @@ namespace Player{
         }
 
         private void OnInteractionSuccessfulEvent(){
-            SuccessfulInput();
+            SuccessfulAction();
         }
 
         #endregion
@@ -187,7 +187,7 @@ namespace Player{
         public bool IsAlive() => state is PlayerState.Alive;
         public bool IsGhost() => state is PlayerState.Ghost;
 
-        public void SuccessfulInput() => OnSuccessfulInput?.Invoke();
+        public void SuccessfulAction() => OnSuccessfulAction?.Invoke();
         
         #endregion
 

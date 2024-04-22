@@ -12,19 +12,23 @@ namespace Objects{
         [SerializeField] private Transform SpikesUp;
         [SerializeField] private NewCollisionManager collisionManager;
 
-        private Collider2D _collider;
         protected override void Start(){
             base.Start();
             SpikesUp.gameObject.SetActive(spikesUp);
-            _collider = GetComponent<Collider2D>();
+
+            PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;            
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
+        }
 
-        protected override void OnTickEvent(int ticks){
+        private void OnSuccessfulActionEvent(){
             spikesUp = !spikesUp;
             SpikesUp.gameObject.SetActive(spikesUp);
         }
-
         public override void Interact(PlayerController player){
             if(spikesUp){
                 player.Die();

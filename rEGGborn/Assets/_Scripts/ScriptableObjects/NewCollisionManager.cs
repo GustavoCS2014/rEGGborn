@@ -37,6 +37,7 @@ namespace System{
 
             //? if the overlapCircle didn't find any gridObject, check if its on ground.
             if(_colliders.Length == 0){
+                if(playerIsDead) return CollisionType.Walkable;
                 if(Physics2D.OverlapCircle(position, .2f, Walls)) return CollisionType.Wall;
                 if(Physics2D.OverlapCircle(position, .2f, Grounds)) return CollisionType.Walkable;
                 return CollisionType.Wall;

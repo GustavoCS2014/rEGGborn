@@ -10,13 +10,13 @@ namespace Player{
         private void Start() {
             _player = PlayerController.Instance;
             TickManager.OnTick += OnTickEvent;
-            PlayerController.OnSuccessfulInput += OnSuccessfulInputEvent;
+            PlayerController.OnSuccessfulAction += OnSuccessfulInputEvent;
         }
 
 
         private void OnDestroy() {
             TickManager.OnTick -= OnTickEvent;
-            PlayerController.OnSuccessfulInput -= OnSuccessfulInputEvent;
+            PlayerController.OnSuccessfulAction -= OnSuccessfulInputEvent;
         }
 
         private void OnSuccessfulInputEvent(){

@@ -22,12 +22,12 @@ namespace System{
         }
 
         private void Start() {
-            PlayerController.OnSuccessfulInput += OnSuccessfulInputEvent;
+            PlayerController.OnSuccessfulAction += OnSuccessfulInputEvent;
         }
 
 
         private void OnDestroy(){
-            PlayerController.OnSuccessfulInput -= OnSuccessfulInputEvent;
+            PlayerController.OnSuccessfulAction -= OnSuccessfulInputEvent;
         }
 
         private void Update(){
