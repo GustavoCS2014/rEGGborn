@@ -65,7 +65,6 @@ public class MusicManager : MonoBehaviour {
     }
 
     private void PlayStateMusic(GameState state){
-        Debug.Log($"{state}");
         if(state == GameState.None) return;
         if(state == GameState.MainMenu){
             ChangeMusic(musicSources.MainMenuMusic);

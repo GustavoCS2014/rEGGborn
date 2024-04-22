@@ -29171,6 +29171,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 230193248236371624, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
+      propertyPath: eggPrefab
+      value: 
+      objectReference: {fileID: 6937468868408173069, guid: 87a0b585a85632844b46052e0ca4a946, type: 3}
     - target: {fileID: 1407839302531043016, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6

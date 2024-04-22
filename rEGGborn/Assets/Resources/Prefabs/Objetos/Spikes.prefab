@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8410191809836871916}
   - component: {fileID: 7873906022943870920}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: SpikesUpVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8169590010679179711}
   - component: {fileID: 6473493521071378266}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: SpikesDownVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8140442399837876311}
   - component: {fileID: 4812855439026878407}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8784010338392224460}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3134665286080861102}
   - component: {fileID: 5308299377736320847}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 1758569996605346523}
   - component: {fileID: 5543932475076319061}
   - component: {fileID: 3386569800880867524}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,10 +462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c93e4cded71f4f942a15c89727347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spikesOut: 0
-  timeOut: 1
-  timeIn: 1
+  spikesUp: 0
   SpikesUp: {fileID: 8410191809836871916}
-  stopColliderMask:
-    serializedVersion: 2
-    m_Bits: 256
+  collisionManager: {fileID: 11400000, guid: 9b1e7a3499aa1b54da4800161adb54c0, type: 2}

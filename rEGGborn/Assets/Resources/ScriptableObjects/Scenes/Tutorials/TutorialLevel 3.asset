@@ -15,6 +15,6 @@ MonoBehaviour:
   scene:
     m_SceneAsset: {fileID: 102900000, guid: 6f541cfa7ce4eea4bb5d9e9c9f4ae090, type: 3}
     m_SceneName: Tutorial_3
-  startingState: 2
+  startingState: 4
   minimumMoves: 36
   ghostMaxMoves: 10

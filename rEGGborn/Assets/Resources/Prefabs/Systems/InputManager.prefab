@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2567a837716b648adb31d864335f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameplayInputActiveStates: 2
-  pauseInputActiveStates: 7
-  uIInputActiveStates: 5
+  gameplayInputActiveStates: 4
+  pauseInputActiveStates: 14
+  uIInputActiveStates: 25

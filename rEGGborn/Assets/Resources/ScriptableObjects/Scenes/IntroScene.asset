@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: IntroScene
   m_EditorClassIdentifier: 
   scene:
-    m_SceneAsset: {fileID: 102900000, guid: 77f61695705e124499ec479d82a4322d, type: 3}
+    m_SceneAsset: {fileID: 0}
     m_SceneName: IntroScene
   startingState: 0
-  levelIndex: -1
   minimumMoves: -1
+  ghostMaxMoves: -1

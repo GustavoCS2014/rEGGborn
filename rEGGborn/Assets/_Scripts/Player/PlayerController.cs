@@ -2,30 +2,22 @@ using System;
 using Attributes;
 using Core;
 using Inputs;
-using Interfaces;
 using Objects;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.InputSystem;
 
 namespace Player{
-    public class PlayerController : MonoBehaviour {
-        
-        public enum PlayerState{
-            Alive,
-            Ghost,
-            Dead,
-        }
+    public sealed class PlayerController : MonoBehaviour {
 
         public static event Action OnPlayerDead;
         public static event Action<int> OnGhostMove;
         public static event Action OnPlayerHatched;
-        public static event Action OnEggLayed;
         public static event Action OnShowRespawnHint;
+        public static event Action OnSuccessfulInput;
 
         public static PlayerController Instance {get; private set;}
-        public bool EggLayed {get; private set;}
+        public bool EggLaid {get; private set;}
         public PlayerState state;
         [Header("Visuals"), Space(10)]
         [SerializeField] private Transform AliveSprite;
@@ -35,13 +27,14 @@ namespace Player{
         [SerializeField] private LayerMask wallMask;
         [SerializeField] private LayerMask interactableMask;
         [Header("Egg"), Space(10)]
-        [SerializeField] private Egg egg;
-        [SerializeField, ReadOnly] private Egg layedEgg;
+        [SerializeField] private Egg eggPrefab;
+        [SerializeField, ReadOnly] private Egg egg;
         [SerializeField, ReadOnly] private int ghostMoves;
+        [SerializeField, ReadOnly] private bool layedEgg; 
         private Vector2 _direction;
 
         private GameManager _gameManager;
-        [SerializeField] private CollisionManager _collisionManager;
+        [SerializeField] private NewCollisionManager _newCollisionManager;
         private CollisionType _collisionType;
 
         private void Awake() {
@@ -56,17 +49,19 @@ namespace Player{
             _gameManager = GameManager.Instance;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
-            GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
+            TickManager.OnTick += OnTickEvent;
+            GridObject.OnInteractionSuccessful += OnInteractionSuccessfulEvent;
         }
 
         private void OnDestroy() {
             InputManager.OnLayEgg -= OnLayEggEvent;
             InputManager.OnMovePad -= OnMovePadEvent;
-            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
+            TickManager.OnTick -= OnTickEvent;
+            GridObject.OnInteractionSuccessful -= OnInteractionSuccessfulEvent;
         }
 
         private void Update(){
-            
+            //?Do things on state.
             switch(state){
                 case PlayerState.Alive:
                     ghostMoves = -1;
@@ -76,138 +71,127 @@ namespace Player{
                 case PlayerState.Ghost:
                     DeadSprite.gameObject.SetActive(true);
                     AliveSprite.gameObject.SetActive(false);
-                    if(!EggLayed){
+                    //? if the player didn't lay an egg before dying, show a respawn hint.
+                    if(!EggLaid){
                         OnShowRespawnHint?.Invoke();
                     }
-                break;
-                case PlayerState.Dead:
-                    
                 break;
             }
 
         }
 
-        private void OnMovesIncreasedEvent(int movesCount)
-        {
-        }
+        #region  EVENTS
 
         private void OnMovePadEvent(InputAction.CallbackContext context, Vector2 input)
         {
             if(context.canceled) return;
-            bool pushed = false;
             _direction = input;
 
-            //? check Collisions to the block the player will move.
-            _collisionType = _collisionManager.CheckCollisionAt(
+            CollisionType collision = _newCollisionManager.DetectCollisionAt(
                 (Vector2)transform.position + _direction,
-                state == PlayerState.Ghost,
-                out IInteractable interactable
-                );
+                IsGhost(),
+                out GridObject nextObj
+            );
 
-            if(interactable is IMovable){
-                IMovable movable = interactable as IMovable;
-                movable.PushTo(_direction);
-                _gameManager.IncreaseMoves();
-                pushed = true;
-            }
-            if(interactable is IEgg){
-                IEgg GhostInteractable = interactable as IEgg;
-                layedEgg = null;
-                EggLayed = false;
-                GhostInteractable.Hatch(this);
+            if(nextObj is not null){
+                //? interacting with the object, SuccessfulInput will be called if there's a successful interaction.
+                nextObj.Interact(this);
             }
 
-            HandleMove(_direction, out bool moved);
-            if(!moved && !pushed) return;
-            
-            //? check collisions in the block the player is standing in after moving.
-            _collisionManager.CheckCollisionAt(
-                transform.position,
-                state == PlayerState.Ghost,
-                out IInteractable bodyInteractable
-                );
-            
-            if(bodyInteractable is IDamager){
-                IDamager damager = bodyInteractable as IDamager;
-                if(damager.IsDamaging()){
-                    if(state == PlayerState.Alive) 
-                        damager.Damage(this);
-                }
-            }
-            
-            if(bodyInteractable is IGoal){
-                IGoal goal = bodyInteractable as IGoal;
-                goal.WinStage();
-            }
 
-            HandleGhostMoves();
+            //? moving the player if the surface is walkable.
+            if(collision is not CollisionType.Walkable) return;
+            Move(_direction);
+            HandleGhostMoveCount();
+            SuccessfulInput();
         }
 
+
+        //TODO think of a better way to do this, maybe move it to a LayEgg method or smth.
         private void OnLayEggEvent(InputAction.CallbackContext context)
         {
             if(context.canceled) return;
-            if(state == PlayerState.Ghost) return;
-            if(state == PlayerState.Dead) return;
-            
-            if(EggLayed){
-                Destroy(layedEgg.gameObject);
-                layedEgg = null;
-                EggLayed = false;
-            }
-    
-            EggLayed = true;
-            layedEgg = Instantiate(egg, transform.position, quaternion.identity);
-            OnEggLayed?.Invoke();
-            _gameManager.IncreaseMoves();
-        }
+            if(IsGhost()) return;
 
-        private void HandleMove(Vector3 direction, out bool moved){
-            moved = false;
-            if(_collisionType == CollisionType.Walkable){
-                transform.position += direction;
-                _gameManager.IncreaseMoves();
-                moved = true;
+            if(Egg.CanBeLaid(transform.position, IsGhost(), _newCollisionManager)){
+                LayEgg();
+                SuccessfulInput();
+            }
+        }
+        
+        private void OnTickEvent(int ticks) {
+            _collisionType = _newCollisionManager.DetectCollisionAt(
+                transform.position,
+                IsGhost(),
+                out GridObject bodyObj
+            );
+
+            if(bodyObj is not null){
+                bodyObj.Interact(this);
             }
         }
 
-        private void HandleGhostMoves(){
-            if(state != PlayerState.Ghost) return;
+        private void OnInteractionSuccessfulEvent(){
+            SuccessfulInput();
+        }
+
+        #endregion
+
+        #region PLAYER METHODS
+        private void Move(Vector3 direction){
+            transform.position += direction;
+        }
+
+        private void HandleGhostMoveCount(){
+            if(IsAlive()) return;
             OnGhostMove?.Invoke(ghostMoves);
             ghostMoves--;
             if(ghostMoves < 0) Die();
 
         }
 
+        private void LayEgg(){
+            //? if an egg has ben laid, break it and place a new one in the current position.
+            if(EggLaid){
+                egg.BreakEgg();
+                Destroy(egg.gameObject);
+                egg = null;
+                EggLaid = false;
+            }
+
+            egg = Instantiate(eggPrefab, transform.position, quaternion.identity);
+            EggLaid = true;
+        }
+
         public void Die(){
-            if(state == PlayerState.Alive){
+            if(IsAlive()){
                 state = PlayerState.Ghost;
                 ghostMoves = _gameManager.GetMaxGhostMoves();
                 return;
             }
-            if(state == PlayerState.Ghost){
-                state = PlayerState.Dead;
+            if(IsGhost()){
                 OnPlayerDead?.Invoke();
             }
         }
 
         public void Revive(){
-            if(state == PlayerState.Ghost){
+            if(IsGhost()){
+                egg = null;
+                EggLaid = false;
                 state = PlayerState.Alive;
                 OnPlayerHatched?.Invoke();
                 return;
             }
         }
 
+        public bool IsAlive() => state is PlayerState.Alive;
+        public bool IsGhost() => state is PlayerState.Ghost;
+
+        public void SuccessfulInput() => OnSuccessfulInput?.Invoke();
+        
+        #endregion
 
         #region DEBUG   
-        private void OnGUI() {
-
-            // GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = 30;
-
-            // if(GUILayout.Button("~ SUICIDE ~",  GUILayout.Height(100f), GUILayout.Width(300f))){
-            //     Die();
-            // }
-        }
         private void OnDrawGizmos() {
             Vector3Int pos = Vector3Int.RoundToInt(transform.position);
             transform.position = pos;

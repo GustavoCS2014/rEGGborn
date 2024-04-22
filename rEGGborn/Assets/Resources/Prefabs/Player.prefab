@@ -144,10 +144,12 @@ MonoBehaviour:
   interactableMask:
     serializedVersion: 2
     m_Bits: 256
+  eggPrefab: {fileID: 6937468868408173069, guid: 87a0b585a85632844b46052e0ca4a946, type: 3}
   egg: {fileID: 6937468868408173069, guid: 87a0b585a85632844b46052e0ca4a946, type: 3}
-  layedEgg: {fileID: 0}
   ghostMoves: 0
-  _collisionManager: {fileID: 11400000, guid: 8443577030b2a3249ac6a2b3882054cc, type: 2}
+  layedEgg: 0
+  moved: 0
+  _newCollisionManager: {fileID: 11400000, guid: 9b1e7a3499aa1b54da4800161adb54c0, type: 2}
 --- !u!61 &8698270188108784502
 BoxCollider2D:
   m_ObjectHideFlags: 0

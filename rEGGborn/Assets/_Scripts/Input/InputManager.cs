@@ -25,6 +25,7 @@ namespace Inputs{
         private Vector2 _lastInputDirection;
         private PlayerActions _playerActions;
         private GameManager _gameManager;
+        private TickManager _tickManager;
         private void Awake() {
             if(Instance){
                 Destroy(gameObject);
@@ -40,6 +41,7 @@ namespace Inputs{
 
         private void Start() {
             _gameManager = GameManager.Instance;
+            _tickManager = TickManager.Instance;
         }
 
         private void Update(){

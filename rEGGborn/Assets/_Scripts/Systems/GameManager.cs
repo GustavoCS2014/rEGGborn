@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Attributes;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Core{
@@ -31,17 +32,22 @@ namespace Core{
         }
 
         private void Start() {
+            //? Setting the starting scene.
             currentScene = startingScene;
             ChangeState(currentScene.StartingState);
             OnStateChanged?.Invoke(currentState);
-            Cursor.visible = false;
+
+            TickManager.OnTick += OnTickEvent;
 
             // State = currentScene.StartingState;
             // currentState = State;
         }
 
         private void OnDestroy() {
+            TickManager.OnTick += OnTickEvent;
         }
+
+        private void OnTickEvent(int ticks) => IncreaseMoves();
 
         private void Update(){
             switch(State){
@@ -53,7 +59,7 @@ namespace Core{
                 break;
                 
                 case GameState.Paused:
-                    hintUI.Close();
+                    // hintUI.Close();
                 break;
                 case GameState.NextOrRetryScene:
                     

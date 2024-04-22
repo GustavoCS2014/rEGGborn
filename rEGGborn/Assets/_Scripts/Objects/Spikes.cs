@@ -1,72 +1,37 @@
-using Core;
-using Interfaces;
+using System;
 using Player;
 using UnityEngine;
 
 namespace Objects{
-    public class Spikes : MonoBehaviour, IDamager
-    {
-        [SerializeField] private bool spikesOut;
-        [SerializeField] private int timeOut;
-        [SerializeField] private int timeIn;
+    public class Spikes : GridObject{
+        public static event Action OnSpikesUp;
+        public override uint CollisionPriority { get; protected set; } = 2;
+        public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
+        public override bool GhostInteractable { get; protected set; } = false;
+        [SerializeField] private bool spikesUp;
         [SerializeField] private Transform SpikesUp;
-        [SerializeField] private LayerMask stopColliderMask;
+        [SerializeField] private NewCollisionManager collisionManager;
 
-        private int _counter;
-
-        private void Start() {
-            GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
-
-            SpikesUp.gameObject.SetActive(spikesOut);
+        private Collider2D _collider;
+        protected override void Start(){
+            base.Start();
+            SpikesUp.gameObject.SetActive(spikesUp);
+            _collider = GetComponent<Collider2D>();
         }
 
-        private void OnDisable() {
-            
-            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
+
+        protected override void OnTickEvent(int ticks){
+            spikesUp = !spikesUp;
+            SpikesUp.gameObject.SetActive(spikesUp);
         }
 
-        private void Update(){
-            float checkSize = .2f;
-            if(Physics2D.OverlapCircle(transform.position, checkSize, stopColliderMask)) {
-                GetComponent<Collider2D>().enabled = false;
-                return;
+        public override void Interact(PlayerController player){
+            if(spikesUp){
+                player.Die();
             }
-            GetComponent<Collider2D>().enabled = true;
-            
         }
 
         public GameObject GetGameObject() => gameObject;
-
         public Transform GetTransform() => transform;
-
-        private void OnMovesIncreasedEvent(int moves){
-            if(spikesOut){
-                _counter++;
-                if(_counter < timeOut) return;
-                _counter = 0;
-                spikesOut = !spikesOut;
-            }else{
-                _counter++;
-                if(_counter < timeIn) return;
-                _counter = 0;
-                spikesOut = !spikesOut;
-            }
-            SpikesUp.gameObject.SetActive(spikesOut);
-
-        }
-
-        public void Damage(PlayerController player)
-        {
-            //! Bc of the way the collisions are detected, we damage the player if the Spikes are hidden. xD
-            if(spikesOut)   
-                player.Die();
-        }
-
-        private void OnDrawGizmos() {
-            Vector3Int pos = Vector3Int.RoundToInt(transform.position);
-            transform.position = pos;
-        }
-
-        public bool IsDamaging() => spikesOut;
     }
 }

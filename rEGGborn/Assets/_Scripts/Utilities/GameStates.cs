@@ -4,8 +4,9 @@ using System;
 public enum GameState{
     None = 0,
     MainMenu = 1,
-    Playing = 2,
-    Paused = 4,
-    NextOrRetryScene = 8,
-    GameOver = 16,
+    TickCooldown = 2,
+    Playing = 4,
+    Paused = 8,
+    NextOrRetryScene = 16,
+    GameOver = 32,
 }

@@ -1,52 +1,40 @@
+using System;
 using Attributes;
-using Core;
-using Interfaces;
 using Player;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Objects{
-    public class Egg : MonoBehaviour, IEgg, ITeleportable {
-        [SerializeField] private LayerMask DetectionLayer;
+    public class Egg : GridObject{
+        public override uint CollisionPriority { get; protected set; } = 3;
+        public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
+        public override bool GhostInteractable { get; protected set; } = true;
         [SerializeField, ReadOnly] private bool hasTeleported;
 
-        private void Start() {
-            GameManager.OnMovesIncreased += OnMovesIncreasedEvent;
+        public static bool CanBeLaid(Vector3 layPosition, bool playerIsGhost, NewCollisionManager manager){
+
+            CollisionType collision = manager.DetectCollisionAt(
+                layPosition,
+                playerIsGhost,
+                out GridObject bodyObj
+            );
+
+            //? if there's something other than a portal on this tile, can't lay the egg. 
+            if(bodyObj is not null && bodyObj is not Portal) return true;
+            return false;
         }
 
-        private void OnDisable() {
-            GameManager.OnMovesIncreased -= OnMovesIncreasedEvent;
-        }
+        public override void Interact(PlayerController player){
+            if(player.IsAlive()) return;
 
-
-        private void OnMovesIncreasedEvent(int obj)
-        {
-            CheckCollision();
-        }
-
-        public GameObject GetGameObject() => gameObject;
-
-        public Vector3 GetPosition() => transform.position;
-
-        public Transform GetTransform() => transform;
-
-        public void Hatch(PlayerController player){
             player.Revive();
             Destroy(gameObject);
         }
 
-        private void CheckCollision(){
-            if(hasTeleported) return;
-            Collider2D collision;
-            float checkSize = .2f;
-            if(!(collision = Physics2D.OverlapCircle(transform.position, checkSize, DetectionLayer))) return;
-            if(collision.TryGetComponent(out IPortal portal)){
-                if(!portal.IsSender()){
-                    return;
-                }
-                portal.Teleport(this);
-                hasTeleported = true;
-            }
+        public void BreakEgg(){
+
         }
+
+        public Transform GetTransform() => transform;
+        public GameObject GetGameObject() => gameObject;
     }
 }

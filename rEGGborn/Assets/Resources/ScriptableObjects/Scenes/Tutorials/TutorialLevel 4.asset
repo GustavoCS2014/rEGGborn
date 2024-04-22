@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TutorialLevel 4
   m_EditorClassIdentifier: 
   scene:
-    m_SceneAsset: {fileID: 102900000, guid: 99bd2629bf2abd443a9d137522134c6c, type: 3}
-    m_SceneName: Tutorial_4
-  startingState: 2
+    m_SceneAsset: {fileID: 102900000, guid: f092bc9e7abcb804da64d3b2ca22818c, type: 3}
+    m_SceneName: Tutorial_5
+  startingState: 4
   minimumMoves: 30
   ghostMaxMoves: 11
