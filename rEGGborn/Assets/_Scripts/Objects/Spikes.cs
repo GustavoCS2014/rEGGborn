@@ -2,8 +2,10 @@ using System;
 using Player;
 using UnityEngine;
 
-namespace Objects{
-    public class Spikes : GridObject{
+namespace Objects
+{
+    public class Spikes : GridObject
+    {
         public static event Action OnSpikesUp;
         public override uint CollisionPriority { get; protected set; } = 2;
         public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
@@ -13,11 +15,12 @@ namespace Objects{
         [SerializeField] private NewCollisionManager collisionManager;
         private int _order;
 
-        protected override void Start(){
+        protected override void Start()
+        {
             base.Start();
             SpikesUp.gameObject.SetActive(spikesUp);
 
-            PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;            
+            PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
         }
 
         protected override void OnDestroy()
@@ -26,18 +29,15 @@ namespace Objects{
             PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
         }
 
-        private void OnSuccessfulActionEvent(){
+        private void OnSuccessfulActionEvent()
+        {
             spikesUp = !spikesUp;
-            Debug.Log($"{_order}.- GoingDown");
-            _order++;
             SpikesUp.gameObject.SetActive(spikesUp);
         }
-        public override void Interact(PlayerController player){
-            Debug.Log($"{_order}.- SpikesUp");
-            _order++;
-            if(spikesUp){
+        public override void Interact(PlayerController player)
+        {
+            if (spikesUp)
                 player.Die();
-            }
         }
 
         public GameObject GetGameObject() => gameObject;
