@@ -161,23 +161,20 @@ namespace Player
         #region PLAYER METHODS
         private void Move(Vector3 direction)
         {
-            //? Moves the player with a smooth animation.
-            // transform.DOMove(transform.position + direction, TickManager.Instance.TickDuration)
-            //         .SetEase(Ease.InOutSine);
+            if (state == PlayerState.Ghost)
+            {
+                transform.DOMove(transform.position + direction, TickManager.Instance.TickDuration)
+                        .SetEase(Ease.InOutSine);
+                return;
+            }
+
             float jumpPower = Vector3.Distance(transform.position + direction, transform.position) * 0.3f;
-
-            transform.DOJump(transform.position + direction, jumpPower, 1, TickManager.Instance.TickDuration).SetEase(Ease.InOutSine);
-            Sequence JumpScale = DOTween.Sequence();
-            JumpScale.Append(
-                transform.DOScale(1.05f, TickManager.Instance.TickDuration * 0.5f)
-            );
-
-            JumpScale.Append(
-                transform.DOScale(1f, TickManager.Instance.TickDuration * 0.5f)
-            );
-
-
-
+            transform.DOJump(
+                transform.position + direction,
+                jumpPower,
+                1,
+                TickManager.Instance.TickDuration
+            ).SetEase(Ease.InOutSine);
         }
 
         private void HandleGhostMoveCount()

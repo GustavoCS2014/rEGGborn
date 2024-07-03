@@ -43,10 +43,11 @@ Material:
     m_Floats:
     - _ColorOpacity: -1.38
     - _Curvature: 1.15
-    - _Darkening: 2.16
+    - _Darkening: 2.51
     - _On: 1
+    - _Step: 1.5
     - _TexelSizeHorizontal: 3.81
-    - _TexelSizeVertical: 5.56
+    - _TexelSizeVertical: 1.4
     - _curvature: 1.075
     - _viginetteWidth: 50
     m_Colors:
