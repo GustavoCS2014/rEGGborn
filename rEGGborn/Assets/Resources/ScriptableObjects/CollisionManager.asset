@@ -20,5 +20,4 @@ MonoBehaviour:
     m_Bits: 64
   Walls:
     serializedVersion: 2
-    m_Bits: 128
-  colliders: []
+    m_Bits: 1152

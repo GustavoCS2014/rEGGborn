@@ -5,16 +5,19 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RespawnUI : MonoBehaviour, IUserInterface {
-    
+public class RespawnUI : MonoBehaviour, IUserInterface
+{
+
     [SerializeField] private Transform respawnPanel;
     [SerializeField] private Button defaultButton;
 
-    private void Start() {
+    private void Start()
+    {
         PlayerController.OnPlayerDead += OnPlayerDeadEvent;
     }
 
-    private void OnDestroy() {
+    private void OnDisable()
+    {
         PlayerController.OnPlayerDead -= OnPlayerDeadEvent;
     }
 
@@ -25,7 +28,8 @@ public class RespawnUI : MonoBehaviour, IUserInterface {
         defaultButton.Select();
     }
 
-    public void Show() {
+    public void Show()
+    {
         respawnPanel.gameObject.SetActive(true);
         defaultButton.Select();
     }

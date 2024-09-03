@@ -62,12 +62,17 @@ namespace Player
             GridObject.OnInteractionSuccessful += OnInteractionSuccessfulEvent;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             InputManager.OnLayEgg -= OnLayEggEvent;
             InputManager.OnMovePad -= OnMovePadEvent;
             TickManager.OnTick -= OnTickEvent;
             GridObject.OnInteractionSuccessful -= OnInteractionSuccessfulEvent;
+        }
+
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
         }
 
         private void Update()

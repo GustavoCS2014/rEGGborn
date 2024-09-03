@@ -44,6 +44,8 @@ Material:
     - _ColorOpacity: -1.38
     - _Curvature: 1.15
     - _Darkening: 2.51
+    - _Noise: 1
+    - _NoiseIntensity: 0.364
     - _On: 1
     - _Step: 1.5
     - _TexelSizeHorizontal: 3.81

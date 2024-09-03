@@ -23,9 +23,9 @@ namespace Objects
             PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
         }
 

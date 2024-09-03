@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace UI{
+namespace UI
+{
     public class ConfigUI : MonoBehaviour, IUserInterface
     {
         [SerializeField] private Transform container;
@@ -15,31 +16,34 @@ namespace UI{
         [SerializeField] private TextMeshProUGUI musicVolumeText;
 
 
-        private void Start() {
+        private void Start()
+        {
             InputManager.OnCancelInput += OnCancelInputEvent;
             MusicManager.OnVolumeChanged += UpdateVolumeText;
             UpdateVolumeText(MusicManager.Instance.GetMusicVolume());
         }
 
-        private void OnDestroy() {
+        private void OnDisable()
+        {
             InputManager.OnCancelInput -= OnCancelInputEvent;
             MusicManager.OnVolumeChanged -= UpdateVolumeText;
         }
 
-        public void UpdateVolumeText(float value){
+        public void UpdateVolumeText(float value)
+        {
             musicVolumeText.text = string.Format($"{Mathf.RoundToInt(value * 100)}%");
         }
 
         private void OnCancelInputEvent(InputAction.CallbackContext context)
         {
-            if(context.canceled) return;
+            if (context.canceled) return;
             Close();
         }
 
         public void Close()
         {
             container.gameObject.SetActive(false);
-            if(mainMenuButtonGroup is null) return;
+            if (mainMenuButtonGroup is null) return;
             mainMenuButtonGroup.interactable = true;
             selectedWhenClosed.Select();
         }
@@ -47,7 +51,7 @@ namespace UI{
         public void Show()
         {
             container.gameObject.SetActive(true);
-            if(selectedWhenOpened is null) return;
+            if (selectedWhenOpened is null) return;
             selectedWhenOpened.Select();
         }
     }

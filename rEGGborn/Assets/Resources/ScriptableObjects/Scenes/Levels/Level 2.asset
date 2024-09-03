@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Level 2
   m_EditorClassIdentifier: 
   scene:
-    m_SceneAsset: {fileID: 102900000, guid: 40d883b027822194996f651f7c41435b, type: 3}
-    m_SceneName: Level 3
+    m_SceneAsset: {fileID: 102900000, guid: ef2e8da58592c9440a2a8b51d181694c, type: 3}
+    m_SceneName: Level 2
   startingState: 4
   minimumMoves: 60
   ghostMaxMoves: 7

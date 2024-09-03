@@ -8,12 +8,12 @@ public sealed class PermanentCamera : MonoBehaviour
 
     private void Awake()
     {
-        Cam = GetComponent<Camera>();
         if (Instance)
         {
             Destroy(gameObject);
             return;
         }
+        Cam = GetComponent<Camera>();
         Instance = this;
         DontDestroyOnLoad(this);
     }

@@ -24,9 +24,9 @@ namespace Objects
             OnTeleport += OnTeleportEvent;
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             OnTeleport -= OnTeleportEvent;
         }
 

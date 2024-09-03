@@ -2,17 +2,20 @@ using System;
 using Core;
 using Player;
 using UnityEngine;
-    
-namespace UI{
+
+namespace UI
+{
     public class RestartHintUI : MonoBehaviour, IUserInterface
     {
         [SerializeField] private Transform container;
 
-        private void Start() {
+        private void Start()
+        {
             PlayerController.OnShowRespawnHint += Show;
         }
 
-        private void OnDestroy() {
+        private void OnDisable()
+        {
             PlayerController.OnShowRespawnHint -= Show;
         }
 

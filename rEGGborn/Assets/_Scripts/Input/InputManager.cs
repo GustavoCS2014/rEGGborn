@@ -1,12 +1,13 @@
 using System;
 using Core;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Inputs{    
-    public class InputManager : MonoBehaviour {
-        public static InputManager Instance {get; private set;}
+namespace Inputs
+{
+    public class InputManager : MonoBehaviour
+    {
+        public static InputManager Instance { get; private set; }
         public static event Action<InputAction.CallbackContext> OnAnyInput;
         public static event Action<InputAction.CallbackContext> OnLayEgg;
         public static event Action<InputAction.CallbackContext, Vector2> OnMovePad;
@@ -26,25 +27,32 @@ namespace Inputs{
         private PlayerActions _playerActions;
         private GameManager _gameManager;
         private TickManager _tickManager;
-        private void Awake() {
-            if(Instance){
+        private void Awake()
+        {
+            if (Instance)
+            {
                 Destroy(gameObject);
-            }else{
+            }
+            else
+            {
                 Instance = this;
             }
             _playerActions = new PlayerActions();
             _playerActions.Enable();
         }
-        private void OnDestroy() {
-            if(_playerActions is not null) _playerActions.Disable();
+        private void OnDestroy()
+        {
+            if (_playerActions is not null) _playerActions.Disable();
         }
 
-        private void Start() {
+        private void Start()
+        {
             _gameManager = GameManager.Instance;
             _tickManager = TickManager.Instance;
         }
 
-        private void Update(){
+        private void Update()
+        {
             //? if the flag is not inside the active states, disable the input. (NOTE: OnAnyInput still is invoked.)
             _gameplayInputsDisabled = (gameplayInputActiveStates & _gameManager.State) != _gameManager.State;
             _pauseInputsDisabled = (pauseInputActiveStates & _gameManager.State) != _gameManager.State;
@@ -52,7 +60,8 @@ namespace Inputs{
 
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
 
             _playerActions.Gameplay.LayEgg.performed += LayEggAction;
             _playerActions.Gameplay.LayEgg.canceled += LayEggAction;
@@ -69,11 +78,12 @@ namespace Inputs{
             _playerActions.Pause.Pause.performed += PauseAction;
             _playerActions.Pause.Pause.canceled += PauseAction;
 
-            _playerActions.UI.Cancel.performed  += CancelAction;
+            _playerActions.UI.Cancel.performed += CancelAction;
             _playerActions.UI.Cancel.canceled += CancelAction;
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
 
             _playerActions.Gameplay.LayEgg.performed -= LayEggAction;
             _playerActions.Gameplay.LayEgg.canceled -= LayEggAction;
@@ -86,73 +96,84 @@ namespace Inputs{
             _playerActions.Gameplay.Left.canceled -= LeftAction;
             _playerActions.Gameplay.Right.performed -= RightAction;
             _playerActions.Gameplay.Right.canceled -= RightAction;
-            
+
             _playerActions.Pause.Pause.performed -= PauseAction;
             _playerActions.Pause.Pause.canceled -= PauseAction;
-        
-            _playerActions.UI.Cancel.performed  -= CancelAction;
+
+            _playerActions.UI.Cancel.performed -= CancelAction;
             _playerActions.UI.Cancel.canceled -= CancelAction;
-            
+
         }
 
 
         #region  GAMEPLAY ACTIONS
-        private void LayEggAction(InputAction.CallbackContext context){
+        private void LayEggAction(InputAction.CallbackContext context)
+        {
             OnAnyInput?.Invoke(context);
-            if(_gameplayInputsDisabled) return;
+            if (_gameplayInputsDisabled) return;
 
             OnLayEgg?.Invoke(context);
         }
 
-        private void UpAction(InputAction.CallbackContext context){
-            if(context.performed){
+        private void UpAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
                 _lastInputDirection = Vector2.up;
             }
             OnAnyInput?.Invoke(context);
-            if(_gameplayInputsDisabled) return;
+            if (_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
-        private void DownAction(InputAction.CallbackContext context){
-            if(context.performed){
+        private void DownAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
                 _lastInputDirection = Vector2.down;
             }
             OnAnyInput?.Invoke(context);
-            if(_gameplayInputsDisabled) return;
+            if (_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
-        private void LeftAction(InputAction.CallbackContext context){
-            if(context.performed){
+        private void LeftAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
                 _lastInputDirection = Vector2.left;
             }
             OnAnyInput?.Invoke(context);
-            if(_gameplayInputsDisabled) return;
+            if (_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
 
-        private void RightAction(InputAction.CallbackContext context){
-            if(context.performed){
+        private void RightAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
                 _lastInputDirection = Vector2.right;
             }
             OnAnyInput?.Invoke(context);
-            if(_gameplayInputsDisabled) return;
+            if (_gameplayInputsDisabled) return;
             OnMovePad?.Invoke(context, _lastInputDirection);
         }
         #endregion
-        
+
         #region PAUSE 
-        private void PauseAction(InputAction.CallbackContext context) {           
+        private void PauseAction(InputAction.CallbackContext context)
+        {
             OnAnyInput?.Invoke(context);
-            if(_pauseInputsDisabled) return;
+            if (_pauseInputsDisabled) return;
             OnPauseInput?.Invoke(context);
         }
         #endregion
 
         #region  UI
-        private void CancelAction(InputAction.CallbackContext context){
+        private void CancelAction(InputAction.CallbackContext context)
+        {
             OnAnyInput?.Invoke(context);
-            if(_uIInputsDisabled) return;
+            if (_uIInputsDisabled) return;
             OnCancelInput?.Invoke(context);
         }
 

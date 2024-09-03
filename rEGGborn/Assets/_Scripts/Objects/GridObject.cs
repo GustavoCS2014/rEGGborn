@@ -2,8 +2,10 @@ using System;
 using Core;
 using Player;
 using UnityEngine;
-namespace Objects{
-    public abstract class GridObject : MonoBehaviour{
+namespace Objects
+{
+    public abstract class GridObject : MonoBehaviour
+    {
         /// <summary>
         /// The event called when an interaction is successfull, Eg: Pushing a <see cref="MovableRock"/> away.
         /// </summary>
@@ -12,32 +14,36 @@ namespace Objects{
         /// <summary>
         /// The priority of the collision, if it's lower it will be detected over other objects.
         /// </summary>
-        public abstract uint CollisionPriority {get; protected set;}
+        public abstract uint CollisionPriority { get; protected set; }
         /// <summary>
         /// The CollisionType of the object.
         /// </summary>
-        public abstract CollisionType Type {get; protected set;}
+        public abstract CollisionType Type { get; protected set; }
         /// <summary>
         /// Defines if it will be interactable as a ghost.
         /// </summary>
-        public abstract bool GhostInteractable {get; protected set;}
+        public abstract bool GhostInteractable { get; protected set; }
 
-        protected virtual void Start() {
+        protected virtual void Start()
+        {
             TickManager.OnTick += OnTickEvent;
         }
 
-        protected virtual void OnDestroy() {
+        protected virtual void OnDisable()
+        {
             TickManager.OnTick -= OnTickEvent;
         }
 
-        protected virtual void OnTickEvent(int tick){}
+        protected virtual void OnTickEvent(int tick) { }
         public abstract void Interact(PlayerController player);
 
-        protected virtual void InteractionSuccessful(){
+        protected virtual void InteractionSuccessful()
+        {
             OnInteractionSuccessful?.Invoke();
         }
 
-        protected virtual void OnDrawGizmos() {
+        protected virtual void OnDrawGizmos()
+        {
             transform.position = Vector3Int.RoundToInt(transform.position);
         }
     }

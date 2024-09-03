@@ -1,20 +1,20 @@
 using System;
-using System.Collections.Generic;
 using Attributes;
 using Player;
 using UI;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Core{
-    public class GameManager : MonoBehaviour {
+namespace Core
+{
+    public class GameManager : MonoBehaviour
+    {
         public static event Action<int> OnMovesIncreased;
         public static event Action<GameState> OnStateChanged;
 
-        public static GameManager Instance {get; private set;}
-        public int MoveCount {get; private set;}
-        public int TotalMoveCount {get; private set;}
-        public GameState State {get; private set;}
+        public static GameManager Instance { get; private set; }
+        public int MoveCount { get; private set; }
+        public int TotalMoveCount { get; private set; }
+        public GameState State { get; private set; }
         [Tooltip("Only use when the current scene isn't a level.")]
         [SerializeField] private SceneSettings startingScene;
         [SerializeField, ReadOnly] private GameState currentState;
@@ -22,17 +22,22 @@ namespace Core{
         [SerializeField] private RestartHintUI hintUI;
 
 
-        private void Awake() {
-            if(Instance){
+        private void Awake()
+        {
+            if (Instance)
+            {
                 Destroy(gameObject);
-            }else{
+            }
+            else
+            {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
                 return;
             }
         }
 
-        private void Start() {
+        private void Start()
+        {
             //? Setting the starting scene.
             currentScene = startingScene;
             ChangeState(currentScene.StartingState);
@@ -44,38 +49,43 @@ namespace Core{
             // currentState = State;
         }
 
-        private void OnDestroy() {
+        private void OnDisable()
+        {
             PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
+
         }
 
         private void OnSuccessfulActionEvent() => IncreaseMoves();
 
 
-        private void Update(){
-            switch(State){
+        private void Update()
+        {
+            switch (State)
+            {
                 case GameState.MainMenu:
-                    
-                break; 
+
+                    break;
 
                 case GameState.Playing:
-                break;
-                
+                    break;
+
                 case GameState.Paused:
                     // hintUI.Close();
-                break;
+                    break;
                 case GameState.NextOrRetryScene:
-                    
-                break;
+
+                    break;
                 case GameState.GameOver:
-                
-                break;
+
+                    break;
             }
         }
 
         /// <summary>
         /// Resets the move count and stores the last movecount in the history.
         /// </summary>
-        public void ResetMoveCount(){
+        public void ResetMoveCount()
+        {
             TotalMoveCount += MoveCount;
             MoveCount = 0;
         }
@@ -93,8 +103,9 @@ namespace Core{
         /// <summary>
         /// Gets the minimum moves requiered to complete the level.
         /// </summary>
-        public int GetMinimumMoves(){
-            if(currentScene.MinimumMoves is null) return -1;
+        public int GetMinimumMoves()
+        {
+            if (currentScene.MinimumMoves is null) return -1;
             return (int)currentScene.MinimumMoves.Value;
         }
 
@@ -102,8 +113,9 @@ namespace Core{
         /// Gets the max amount of moves the player can make when ghost.
         /// </summary>
         /// <returns></returns>
-        public int GetMaxGhostMoves(){
-            if(currentScene.GhostMaxMoves is null) return -1;
+        public int GetMaxGhostMoves()
+        {
+            if (currentScene.GhostMaxMoves is null) return -1;
             return (int)currentScene.GhostMaxMoves.Value;
         }
 
@@ -113,19 +125,22 @@ namespace Core{
         /// <returns></returns>
         public int GetTotalMoveCount() => TotalMoveCount;
 
-        public void IncreaseMoves(){
-            MoveCount ++;
+        public void IncreaseMoves()
+        {
+            MoveCount++;
             OnMovesIncreased?.Invoke(MoveCount);
         }
 
-        public void SetScene(SceneSettings scene){
+        public void SetScene(SceneSettings scene)
+        {
             currentScene = scene;
             ChangeState(currentScene.StartingState);
         }
 
-        public SceneSettings GetCurrentScene() => currentScene; 
+        public SceneSettings GetCurrentScene() => currentScene;
 
-        public void ChangeState(GameState state){
+        public void ChangeState(GameState state)
+        {
             State = state;
             currentState = State;
             // OnStateChanged?.Invoke(currentState);
@@ -133,11 +148,12 @@ namespace Core{
 
         public GameState GetCurrentState() => currentState;
 
-        public void ExitGame(){
+        public void ExitGame()
+        {
             Application.Quit();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.LogWarning($"Quiting Game");
-            #endif
+#endif
         }
     }
 }

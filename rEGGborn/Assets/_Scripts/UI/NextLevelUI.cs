@@ -3,15 +3,18 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NextLevelUI : MonoBehaviour, IUserInterface {
-    
+public class NextLevelUI : MonoBehaviour, IUserInterface
+{
+
     [SerializeField] private Transform nextLevelPanel;
     [SerializeField] private Button defaultButton;
 
-    private void Start() {
+    private void Start()
+    {
         Goal.OnGoalEnter += OnGoalEnterEvent;
     }
-    private void OnDestroy() {
+    private void OnDisable()
+    {
         Goal.OnGoalEnter -= OnGoalEnterEvent;
     }
     private void OnGoalEnterEvent()
@@ -19,8 +22,9 @@ public class NextLevelUI : MonoBehaviour, IUserInterface {
         GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
         Show();
     }
-    
-    public void Show() {
+
+    public void Show()
+    {
         nextLevelPanel.gameObject.SetActive(true);
         defaultButton.Select();
     }
