@@ -191,8 +191,8 @@ Canvas:
   m_GameObject: {fileID: 26293048}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1901102564}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -202,7 +202,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1581919081
   m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &26293052
@@ -774,7 +774,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 157.10023, y: -63.09035}
+  m_AnchoredPosition: {x: 157.10022, y: -63.09035}
   m_SizeDelta: {x: 314.20047, y: 126.1807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &224062535
@@ -15295,6 +15295,22 @@ PrefabInstance:
     - target: {fileID: 1124779529842483811, guid: d06f3d2c1dc2e67488ea7dc06bc931c9, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923466896158792923, guid: d06f3d2c1dc2e67488ea7dc06bc931c9, type: 3}
+      propertyPath: m_CameraType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923466896158792923, guid: d06f3d2c1dc2e67488ea7dc06bc931c9, type: 3}
+      propertyPath: m_RenderShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923466896158792923, guid: d06f3d2c1dc2e67488ea7dc06bc931c9, type: 3}
+      propertyPath: m_RendererIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923466896158792923, guid: d06f3d2c1dc2e67488ea7dc06bc931c9, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

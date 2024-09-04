@@ -630,6 +630,7 @@ GameObject:
   - component: {fileID: 3843707025730862929}
   - component: {fileID: 7320273992463945554}
   - component: {fileID: 7655867453153170947}
+  - component: {fileID: 8535884544262953015}
   m_Layer: 0
   m_Name: TransitionerUI
   m_TagString: Untagged
@@ -720,3 +721,16 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8535884544262953015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483480972357644758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed8c09e28841d84f9f781ecf170f270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
