@@ -17,4 +17,4 @@ MonoBehaviour:
     m_SceneName: Tutorial_1
   startingState: 4
   minimumMoves: 27
-  ghostMaxMoves: 0
+  ghostMaxMoves: 20

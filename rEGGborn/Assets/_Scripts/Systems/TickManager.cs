@@ -9,23 +9,23 @@ namespace System
         public static TickManager Instance { get; private set; }
 
         public static event Action<int> OnTick;
-        [SerializeField] private float tickDuration;
-        public float TickDuration => tickDuration;
+        [SerializeField] private float baseTickDuration;
+        public float BaseTickDuration => baseTickDuration;
+        [field: SerializeField, ReadOnly] public float TickDuration { get; private set; }
         [SerializeField, ReadOnly] public int TickCount;
         [SerializeField, ReadOnly] public bool PlayerActed;
         private float _timer;
 
         private void Awake()
         {
-            if (Instance is not null)
+            if (Instance)
             {
                 Destroy(gameObject);
+                return;
             }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            TickDuration = baseTickDuration;
         }
 
         private void Start()
@@ -42,7 +42,7 @@ namespace System
         private void Update()
         {
             if (!PlayerActed) return;
-            if (_timer > tickDuration)
+            if (_timer > TickDuration)
             {
                 _timer = 0;
                 TickCount++;
@@ -59,6 +59,16 @@ namespace System
             GameManager.Instance.ChangeState(GameState.TickCooldown);
         }
 
+        public void ChangeTickDuration(float duration)
+        {
+            if (TickDuration != duration)
+                TickDuration = duration;
+        }
 
+        public void ResetTickDuration()
+        {
+            if (TickDuration != baseTickDuration)
+                TickDuration = baseTickDuration;
+        }
     }
 }

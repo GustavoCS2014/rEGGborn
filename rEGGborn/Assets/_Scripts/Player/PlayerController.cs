@@ -41,6 +41,9 @@ namespace Player
         [SerializeField] private NewCollisionManager _newCollisionManager;
         private CollisionType _collisionType;
 
+        private TickManager _tickManager;
+        private bool changedTick;
+
         private void Awake()
         {
             if (Instance)
@@ -56,6 +59,7 @@ namespace Player
         private void Start()
         {
             _gameManager = GameManager.Instance;
+            _tickManager = TickManager.Instance;
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
             TickManager.OnTick += OnTickEvent;
@@ -84,10 +88,21 @@ namespace Player
                     ghostMoves = -1;
                     AliveSprite.gameObject.SetActive(true);
                     DeadSprite.gameObject.SetActive(false);
+                    if (changedTick)
+                    {
+                        _tickManager.ResetTickDuration();
+                        changedTick = false;
+                    }
                     break;
                 case PlayerState.Ghost:
                     DeadSprite.gameObject.SetActive(true);
                     AliveSprite.gameObject.SetActive(false);
+                    if (!changedTick)
+                    {
+                        _tickManager.ChangeTickDuration(_tickManager.BaseTickDuration * 1.5f);
+                        changedTick = true;
+                    }
+
                     //? if the player didn't lay an egg before dying, show a respawn hint.
                     if (!EggLaid)
                     {
@@ -168,7 +183,7 @@ namespace Player
         {
             if (state == PlayerState.Ghost)
             {
-                transform.DOMove(transform.position + direction, TickManager.Instance.TickDuration)
+                transform.DOMove(transform.position + direction, _tickManager.TickDuration)
                         .SetEase(Ease.InOutSine);
                 return;
             }
@@ -178,7 +193,7 @@ namespace Player
                 transform.position + direction,
                 jumpPower,
                 1,
-                TickManager.Instance.TickDuration
+                _tickManager.TickDuration
             ).SetEase(Ease.InOutSine);
         }
 
