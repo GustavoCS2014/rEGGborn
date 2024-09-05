@@ -1,7 +1,6 @@
 using System;
 using Attributes;
 using Core;
-using DG.Tweening;
 using Inputs;
 using Objects;
 using Unity.Mathematics;
@@ -76,7 +75,6 @@ namespace Player
 
         private void OnDestroy()
         {
-            DOTween.KillAll();
         }
 
         private void Update()
@@ -183,18 +181,21 @@ namespace Player
         {
             if (state == PlayerState.Ghost)
             {
-                transform.DOMove(transform.position + direction, _tickManager.TickDuration)
-                        .SetEase(Ease.InOutSine);
+                // transform.DOMove(transform.position + direction, _tickManager.TickDuration)
+                //         .SetEase(Ease.InOutSine);
+                transform.position = transform.position + direction;
                 return;
             }
 
             float jumpPower = Vector3.Distance(transform.position + direction, transform.position) * 0.3f;
-            transform.DOJump(
-                transform.position + direction,
-                jumpPower,
-                1,
-                _tickManager.TickDuration
-            ).SetEase(Ease.InOutSine);
+
+            transform.position = transform.position + direction;
+            // transform.DOJump(
+            //     transform.position + direction,
+            //     jumpPower,
+            //     1,
+            //     _tickManager.TickDuration
+            // ).SetEase(Ease.InOutSine);
         }
 
         private void HandleGhostMoveCount()

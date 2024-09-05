@@ -1,5 +1,4 @@
 using Attributes;
-using DG.Tweening;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,14 +21,16 @@ public class FadingImage : MonoBehaviour, IUserInterface
     public void Close()
     {
         if (!_showing) return;
-        image.DOFade(0, fadeDuration).SetEase(Ease.OutSine);
+        image.color = SetAlpha(image.color, 0);
+        // image.DOFade(0, fadeDuration).SetEase(Ease.OutSine);
         _showing = false;
     }
 
     public void Show()
     {
         if (_showing) return;
-        image.DOFade(activeAlpha, fadeDuration).SetEase(Ease.OutSine);
+        image.color = SetAlpha(image.color, activeAlpha);
+        // image.DOFade(activeAlpha, fadeDuration).SetEase(Ease.OutSine);
         _showing = true;
     }
 

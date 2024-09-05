@@ -1,5 +1,4 @@
 using Attributes;
-using DG.Tweening;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -21,14 +20,16 @@ public class FadingText : MonoBehaviour, IUserInterface
     public void Close()
     {
         if (!_showing) return;
-        text.DOFade(0, fadeDuration).SetEase(Ease.OutSine);
+        text.alpha = 0;
+        // text.DOFade(0, fadeDuration).SetEase(Ease.OutSine);
         _showing = false;
     }
 
     public void Show()
     {
         if (_showing) return;
-        text.DOFade(activeAlpha, fadeDuration).SetEase(Ease.OutSine);
+        text.alpha = 1;
+        // text.DOFade(activeAlpha, fadeDuration).SetEase(Ease.OutSine);
         _showing = true;
     }
 

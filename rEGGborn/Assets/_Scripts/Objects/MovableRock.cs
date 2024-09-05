@@ -1,6 +1,4 @@
 using System;
-using Core;
-using DG.Tweening;
 using Player;
 using UnityEngine;
 namespace Objects.Movable
@@ -25,7 +23,8 @@ namespace Objects.Movable
             {
                 // transform.position += Vector3Int.RoundToInt(direction);
                 Vector3 intPos = Vector3Int.RoundToInt(transform.position + direction);
-                transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutExpo);
+                // transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutExpo);
+                transform.position += direction;
                 base.InteractionSuccessful();
             }
 
@@ -60,8 +59,8 @@ namespace Objects.Movable
         {
             float duration = TickManager.Instance.TickDuration;
             Vector2 direction = pushDirection * .2f;
-            transform.DOPunchPosition(direction, duration, 10, .5f).SetEase(Ease.InOutCubic);
-            transform.DOShakeRotation(duration, 20, 10).SetEase(Ease.InSine);
+            // transform.DOPunchPosition(direction, duration, 10, .5f).SetEase(Ease.InOutCubic);
+            // transform.DOShakeRotation(duration, 20, 10).SetEase(Ease.InSine);
             base.InteractionSuccessful();
         }
 
