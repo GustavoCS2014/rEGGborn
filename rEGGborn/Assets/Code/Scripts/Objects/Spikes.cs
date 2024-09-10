@@ -1,0 +1,44 @@
+using Reggborn.Core;
+using Reggborn.Player;
+using UnityEngine;
+
+namespace Reggborn.Objects
+{
+    public class Spikes : GridObject
+    {
+        public override uint CollisionPriority { get; protected set; } = 2;
+        public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
+        public override bool GhostInteractable { get; protected set; } = false;
+        [SerializeField] private bool spikesUp;
+        [SerializeField] private Transform SpikesUp;
+        [SerializeField] private NewCollisionManager collisionManager;
+
+        protected override void Start()
+        {
+            base.Start();
+            SpikesUp.gameObject.SetActive(spikesUp);
+
+            PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
+        }
+
+        private void OnSuccessfulActionEvent()
+        {
+            spikesUp = !spikesUp;
+            SpikesUp.gameObject.SetActive(spikesUp);
+        }
+        public override void Interact(PlayerController player)
+        {
+            if (spikesUp)
+                player.Die();
+        }
+
+        public GameObject GetGameObject() => gameObject;
+        public Transform GetTransform() => transform;
+    }
+}

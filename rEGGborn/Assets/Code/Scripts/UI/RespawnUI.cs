@@ -1,0 +1,40 @@
+using Reggborn.Core;
+using Reggborn.Player;
+using Reggborn.UI;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class RespawnUI : MonoBehaviour, IUserInterface
+{
+
+    [SerializeField] private Transform respawnPanel;
+    [SerializeField] private Button defaultButton;
+
+    private void Start()
+    {
+        PlayerController.OnPlayerDead += OnPlayerDeadEvent;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerDead -= OnPlayerDeadEvent;
+    }
+
+    private void OnPlayerDeadEvent()
+    {
+        GameManager.Instance.ChangeState(GameState.NextOrRetryScene);
+        respawnPanel.gameObject.SetActive(true);
+        defaultButton.Select();
+    }
+
+    public void Show()
+    {
+        respawnPanel.gameObject.SetActive(true);
+        defaultButton.Select();
+    }
+
+    public void Close()
+    {
+        respawnPanel.gameObject.SetActive(false);
+    }
+}
