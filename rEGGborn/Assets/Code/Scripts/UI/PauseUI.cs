@@ -7,12 +7,14 @@ using UnityEngine.UI;
 
 namespace Reggborn.UI
 {
-    public class PauseUI : MonoBehaviour, IUserInterface
+    public class PauseUI : SceneLevelUI, IUserInterface
     {
         public static event Action OnGamePaused;
         public static event Action OnGameResumed;
         [SerializeField] private Transform pausePanel;
-        [SerializeField] private Button defaultButton;
+
+        [SerializeField] private Button resumeBTN;
+
         private GameState _lastState;
 
         private void OnEnable()
@@ -36,20 +38,31 @@ namespace Reggborn.UI
             Show();
         }
 
-        public void Close()
+        public override void Close()
         {
+            base.Close();
+
             pausePanel.gameObject.SetActive(false);
             GameManager.Instance.ChangeState(_lastState);
             OnGameResumed?.Invoke();
         }
 
-        public void Show()
+        public override void Show()
         {
+            base.Show();
+
+            resumeBTN.onClick.AddListener(ResumeGame);
             pausePanel.gameObject.SetActive(true);
             defaultButton.Select();
+
             _lastState = GameManager.Instance.GetCurrentState();
             GameManager.Instance.ChangeState(GameState.Paused);
             OnGamePaused?.Invoke();
+        }
+
+        private void ResumeGame()
+        {
+            Close();
         }
     }
 }

@@ -27,11 +27,23 @@ public class TransitionHandler : MonoBehaviour
 
     public virtual void ChangeScene()
     {
+        if (!targetScene)
+        {
+            Debug.LogWarning($"NO TARGET SCENE HAS BEEN ASIGNED.");
+            return;
+        }
+
         SceneTransitioner.Instance.LoadAndChangeScene(targetScene.Scene);
         GameManager.Instance.SetScene(targetScene);
     }
     public virtual void ChangeSceneNoTransition()
     {
+        if (!targetScene)
+        {
+            Debug.LogWarning($"NO TARGET SCENE HAS BEEN ASIGNED.");
+            return;
+        }
+
         SceneTransitioner.Instance.ChangeScene(targetScene.Scene);
         GameManager.Instance.SetScene(targetScene);
         OnSceneChanged?.Invoke(targetScene.StartingState);
@@ -39,16 +51,16 @@ public class TransitionHandler : MonoBehaviour
 
     public virtual void ReloadScene()
     {
-        SceneField currentScene = GameManager.Instance.GetCurrentScene().Scene;
-        SceneTransitioner.Instance.LoadAndChangeScene(currentScene);
-        GameManager.Instance.SetScene(targetScene);
+        SceneSettings currentScene = GameManager.Instance.GetCurrentScene();
+        SceneTransitioner.Instance.LoadAndChangeScene(currentScene.Scene);
+        GameManager.Instance.SetScene(currentScene);
     }
     public virtual void ReloadSceneNoTransition()
     {
-        SceneField currentScene = GameManager.Instance.GetCurrentScene().Scene;
-        SceneTransitioner.Instance.ChangeScene(currentScene);
-        GameManager.Instance.SetScene(targetScene);
-        OnSceneChanged?.Invoke(targetScene.StartingState);
+        SceneSettings currentScene = GameManager.Instance.GetCurrentScene();
+        SceneTransitioner.Instance.ChangeScene(currentScene.Scene);
+        GameManager.Instance.SetScene(currentScene);
+        OnSceneChanged?.Invoke(currentScene.StartingState);
     }
 
 }

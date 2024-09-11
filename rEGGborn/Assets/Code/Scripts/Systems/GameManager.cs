@@ -15,7 +15,9 @@ namespace Reggborn.Core
         public int MoveCount { get; private set; }
         public int TotalMoveCount { get; private set; }
         public GameState State { get; private set; }
-        [Tooltip("Only use when the current scene isn't a level.")]
+
+        [SerializeField] private TransitionHandler transitionHandler;
+        public TransitionHandler TransitionHandler => transitionHandler;
         [SerializeField] private SceneSettings startingScene;
         [SerializeField, ReadOnly] private GameState currentState;
         [SerializeField, ReadOnly] private SceneSettings currentScene;
@@ -27,36 +29,33 @@ namespace Reggborn.Core
             if (Instance)
             {
                 Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
                 return;
             }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            return;
         }
 
         private void Start()
         {
+            if (!transitionHandler)
+                Debug.LogError($"NO TRANSITON HANDLER HAS BEEN ASSIGNED. \nassign one in GameManager inspector.");
+
             //? Setting the starting scene.
             currentScene = startingScene;
             ChangeState(currentScene.StartingState);
             OnStateChanged?.Invoke(currentState);
 
             PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
-
-            // State = currentScene.StartingState;
-            // currentState = State;
         }
 
         private void OnDisable()
         {
             PlayerController.OnSuccessfulAction -= OnSuccessfulActionEvent;
-
         }
 
         private void OnSuccessfulActionEvent() => IncreaseMoves();
-
 
         private void Update()
         {
@@ -138,6 +137,13 @@ namespace Reggborn.Core
         }
 
         public SceneSettings GetCurrentScene() => currentScene;
+
+        public void LoadNextScene()
+        {
+            ResetMoveCount();
+            transitionHandler.SetTargetScene(currentScene.NextScene);
+            transitionHandler.ChangeScene();
+        }
 
         public void ChangeState(GameState state)
         {

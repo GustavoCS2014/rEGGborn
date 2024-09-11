@@ -14,6 +14,10 @@ namespace Reggborn.Core
         [SerializeField] private GameState startingState;
         public GameState StartingState => startingState;
 
+        [Tooltip("The scene next scene to be played.")]
+        [SerializeField] private SceneSettings nextScene;
+        public SceneSettings NextScene => nextScene;
+
         [Space(20)]
         [Header("Specific to level Scenes (-1 means disabled)")]
 

@@ -2,13 +2,11 @@ using Reggborn.Core;
 using Reggborn.Player;
 using Reggborn.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class RespawnUI : MonoBehaviour, IUserInterface
+public class RespawnUI : SceneLevelUI, IUserInterface
 {
 
     [SerializeField] private Transform respawnPanel;
-    [SerializeField] private Button defaultButton;
 
     private void Start()
     {
@@ -27,13 +25,13 @@ public class RespawnUI : MonoBehaviour, IUserInterface
         defaultButton.Select();
     }
 
-    public void Show()
+    public override void Show()
     {
         respawnPanel.gameObject.SetActive(true);
         defaultButton.Select();
     }
 
-    public void Close()
+    public override void Close()
     {
         respawnPanel.gameObject.SetActive(false);
     }

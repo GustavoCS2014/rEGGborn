@@ -58,6 +58,8 @@ namespace Reggborn.Player
         {
             _gameManager = GameManager.Instance;
             _tickManager = TickManager.Instance;
+            _tickManager.ResetTickDuration();
+
             InputManager.OnLayEgg += OnLayEggEvent;
             InputManager.OnMovePad += OnMovePadEvent;
             TickManager.OnTick += OnTickEvent;
@@ -74,6 +76,7 @@ namespace Reggborn.Player
 
         private void OnDestroy()
         {
+            DOTween.KillAll();
         }
 
         private void Update()
@@ -180,8 +183,8 @@ namespace Reggborn.Player
         {
             if (state == PlayerState.Ghost)
             {
-                transform.DOMove(transform.position + direction, _tickManager.TickDuration);
-                //         .SetEase(Ease.InOutSine);
+                transform.DOMove(transform.position + direction, _tickManager.TickDuration)
+                .SetEase(Ease.InOutSine);
                 // transform.position = transform.position + direction;
                 return;
             }
@@ -195,6 +198,16 @@ namespace Reggborn.Player
                 1,
                 _tickManager.TickDuration
             ).SetEase(Ease.InOutSine);
+
+            if (direction.y != 0)
+            {
+                Sequence jumpScale = DOTween.Sequence();
+                jumpScale.Append(transform.DOScale(1 + jumpPower * 0.4f, _tickManager.TickDuration * 0.5f));
+                jumpScale.Append(transform.DOScale(1, _tickManager.TickDuration * 0.5f));
+                jumpScale.SetEase(Ease.InOutSine);
+                jumpScale.Play();
+            }
+
         }
 
         private void HandleGhostMoveCount()

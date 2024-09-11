@@ -16,5 +16,6 @@ MonoBehaviour:
     m_SceneAsset: {fileID: 102900000, guid: 94e1e26811e70da4397043515ba08f7d, type: 3}
     m_SceneName: MainMenu
   startingState: 1
-  levelIndex: -1
+  nextScene: {fileID: 11400000, guid: b0adaeb552379674aaa6ee6679444ee4, type: 2}
   minimumMoves: -1
+  ghostMaxMoves: -1

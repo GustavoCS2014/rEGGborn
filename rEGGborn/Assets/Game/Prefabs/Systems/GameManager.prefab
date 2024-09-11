@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6481575828498563864}
   - component: {fileID: 7005049857344966862}
+  - component: {fileID: 1465843432790209858}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,4 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5db46edeba277b4498989bd228d929c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionHandler: {fileID: 1465843432790209858}
+  startingScene: {fileID: 0}
   currentState: 0
+  currentScene: {fileID: 0}
+  hintUI: {fileID: 0}
+--- !u!114 &1465843432790209858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5396502523750974105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a5a65ff39b89d4cad5b8aabbb24b72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetScene: {fileID: 0}

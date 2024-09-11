@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Reggborn.Core;
 using Reggborn.Player;
 using UnityEngine;
@@ -22,10 +23,8 @@ namespace Reggborn.Objects
             Vector3 direction = transform.position - player.transform.position;
             if (VerifyMove(transform.position + direction))
             {
-                // transform.position += Vector3Int.RoundToInt(direction);
                 Vector3 intPos = Vector3Int.RoundToInt(transform.position + direction);
-                // transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutExpo);
-                transform.position += direction;
+                transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutExpo);
                 base.InteractionSuccessful();
             }
 
@@ -60,8 +59,8 @@ namespace Reggborn.Objects
         {
             float duration = TickManager.Instance.TickDuration;
             Vector2 direction = pushDirection * .2f;
-            // transform.DOPunchPosition(direction, duration, 10, .5f).SetEase(Ease.InOutCubic);
-            // transform.DOShakeRotation(duration, 20, 10).SetEase(Ease.InSine);
+            transform.DOPunchPosition(direction, duration, 10, .5f).SetEase(Ease.InOutCubic);
+            transform.DOShakeRotation(duration, 20, 10).SetEase(Ease.InSine);
             base.InteractionSuccessful();
         }
 

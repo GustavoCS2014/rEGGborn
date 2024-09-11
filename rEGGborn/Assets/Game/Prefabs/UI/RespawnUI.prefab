@@ -126,8 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddab2d2c8a7c094c8dd0e3aeef41122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnPanel: {fileID: 4733110199160487622}
   defaultButton: {fileID: 5231286420936106213}
+  restartBTN: {fileID: 5231286420936106213}
+  mainMenuBTN: {fileID: 5154742220704861485}
+  mainMenuScene: {fileID: 11400000, guid: f2d4b790b71f8f3409f7eff437f5cb1e, type: 2}
+  respawnPanel: {fileID: 4733110199160487622}
 --- !u!1 &2217441746290907938
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,7 +943,6 @@ GameObject:
   - component: {fileID: 4643688641958690535}
   - component: {fileID: 8625552148218030532}
   - component: {fileID: 5154742220704861485}
-  - component: {fileID: 5358958790028501670}
   - component: {fileID: 7496954142334520091}
   m_Layer: 5
   m_Name: MainMenuBtn
@@ -1108,32 +1110,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8625552148218030532}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5358958790028501670}
-        m_TargetAssemblyTypeName: TransitionHandler, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5358958790028501670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7245746227701853282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57a5a65ff39b89d4cad5b8aabbb24b72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: {fileID: 11400000, guid: f2d4b790b71f8f3409f7eff437f5cb1e, type: 2}
+      m_Calls: []
 --- !u!95 &7496954142334520091
 Animator:
   serializedVersion: 5
@@ -1242,7 +1219,6 @@ GameObject:
   - component: {fileID: 5824484492588502443}
   - component: {fileID: 4585090914102722510}
   - component: {fileID: 5231286420936106213}
-  - component: {fileID: 3870190107280899282}
   - component: {fileID: 4554523714507000740}
   m_Layer: 5
   m_Name: RetryBtn
@@ -1410,32 +1386,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4585090914102722510}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3870190107280899282}
-        m_TargetAssemblyTypeName: LevelChanger, Assembly-CSharp
-        m_MethodName: ResetLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3870190107280899282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8994174505739375692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01287af65cd3c7d458436fb26518c1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: {fileID: 0}
+      m_Calls: []
 --- !u!95 &4554523714507000740
 Animator:
   serializedVersion: 5
