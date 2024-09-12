@@ -1,3 +1,4 @@
+using EditorAttributes;
 using Reggborn.Core;
 using Reggborn.Player;
 using UnityEngine;
@@ -10,15 +11,24 @@ namespace Reggborn.Objects
         public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
         public override bool GhostInteractable { get; protected set; } = false;
         [SerializeField] private bool spikesUp;
-        [SerializeField] private Transform SpikesUp;
+        [SerializeField] private Animator animator;
+        [SerializeField] private AnimationClip upAnimation;
+        [SerializeField, ReadOnly] private int _upAnimationHash;
+        [SerializeField] private AnimationClip downAnimation;
+        [SerializeField, ReadOnly] private int _downAnimationHash;
         [SerializeField] private NewCollisionManager collisionManager;
 
         protected override void Start()
         {
             base.Start();
-            SpikesUp.gameObject.SetActive(spikesUp);
-
             PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
+            PlayAnimation(spikesUp ? "SpikesUp" : "SpikesDown");
+        }
+
+        private void OnValidate()
+        {
+            _upAnimationHash = upAnimation ? upAnimation.GetHashCode() : -1;
+            _downAnimationHash = downAnimation ? downAnimation.GetHashCode() : -1;
         }
 
         protected override void OnDisable()
@@ -30,7 +40,8 @@ namespace Reggborn.Objects
         private void OnSuccessfulActionEvent()
         {
             spikesUp = !spikesUp;
-            SpikesUp.gameObject.SetActive(spikesUp);
+
+            PlayAnimation(spikesUp ? "SpikesUp" : "SpikesDown");
         }
         public override void Interact(PlayerController player)
         {
@@ -40,5 +51,15 @@ namespace Reggborn.Objects
 
         public GameObject GetGameObject() => gameObject;
         public Transform GetTransform() => transform;
+
+        public void PlayAnimation(string animHash)
+        {
+            // if (animHash == -1)
+            // {
+            //     Debug.LogWarning("The animation has not been assigned!");
+            //     return;
+            // }
+            animator.Play(animHash);
+        }
     }
 }

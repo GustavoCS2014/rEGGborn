@@ -17,7 +17,7 @@ TagManager:
   - Damagers
   - Limit
   - EggInteractables
-  - 
+  - Aura
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2089221073
+    locked: 0
+  - name: Aura
+    uniqueID: 2850869841
     locked: 0
   - name: Player
     uniqueID: 4217389843
