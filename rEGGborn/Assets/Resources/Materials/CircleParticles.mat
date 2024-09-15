@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Aura
-  m_Shader: {fileID: -6465566751694194690, guid: 5ca7d09e588cc614bbc88ee8098f87a2, type: 3}
+  m_Name: CircleParticles
+  m_Shader: {fileID: -6465566751694194690, guid: afe4fdbac73e226498a84512831ee49a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,7 +23,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -41,28 +53,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ColorOpacity: -1.38
-    - _Curvature: 1.15
-    - _Darkening: 2.51
-    - _Noise: 1
-    - _NoiseIntensity: 0.364
-    - _On: 1
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _Step: 1.5
-    - _TexelSizeHorizontal: 3.81
-    - _TexelSizeVertical: 1.4
-    - _curvature: 1.075
-    - _size: 0.484
-    - _speed: 0.5
-    - _viginetteWidth: 50
+    - _Distort: 1
+    - _EnableExternalAlpha: 0
+    - _NoiseStrenght: 1
     m_Colors:
-    - _Color: {r: 0.38021886, g: 0.96625334, b: 1.1353014, a: 1}
-    - _ColorPass: {r: 1, g: 1, b: 1, a: 1}
-    - _Distortion: {r: 0, g: 0, b: 0, a: 0}
-    - _direction: {r: 0, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _NoiseDirection: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &6281232625391940508
+--- !u!114 &4909984326402859276
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
