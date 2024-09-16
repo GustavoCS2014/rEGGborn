@@ -230,6 +230,48 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &123214555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6511859199928492125, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
+  m_PrefabInstance: {fileID: 645977340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &123214559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123214555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc1419453ec2a4e8eb211bc747e8d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  influenceOverLifetime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.16393445
+      outSlope: 0.16393445
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.52758133
+    - serializedVersion: 3
+      time: 0.9999735
+      value: 0
+      inSlope: -0.62611866
+      outSlope: -0.62611866
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.072135754
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pSystem: {fileID: 0}
 --- !u!224 &130920312 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5985216916138403511, guid: 98adf2a067149de418e4e745b46424fc, type: 3}
@@ -3864,11 +3906,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2568227754385144295, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.43311167
       objectReference: {fileID: 0}
     - target: {fileID: 2568227754385144295, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479442079191396147, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
       propertyPath: m_Name
@@ -4007,6 +4049,10 @@ PrefabInstance:
       value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8472325454578693115, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472325454578693115, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
       propertyPath: simulationSpeed
       value: 0.2
       objectReference: {fileID: 0}
@@ -4121,7 +4167,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6511859199928492125, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 123214559}
   m_SourcePrefab: {fileID: 100100000, guid: 06cb8e95672de9148b6ca6481e2b10bf, type: 3}
 --- !u!1 &708643728
 GameObject:
