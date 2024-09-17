@@ -29,4 +29,5 @@ void GaussianBlur_float(UnityTexture2D Texture, float2 UV, float Blur, UnitySamp
 }
 
 
+
 #endif //MYHLSLINCLUDE_INCLUDED

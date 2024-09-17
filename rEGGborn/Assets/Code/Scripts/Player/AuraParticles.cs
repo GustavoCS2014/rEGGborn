@@ -29,6 +29,11 @@ namespace Reggborn.Player
             _lastPos = transform.position;
         }
 
+        private void OnDisable()
+        {
+            _lastPos = Vector3.zero;
+        }
+
         private void Initialize()
         {
             if (!pSystem)
@@ -36,6 +41,11 @@ namespace Reggborn.Player
 
             if (!pSystem || _particlesArray.Length < pSystem.main.maxParticles)
                 _particlesArray = new ParticleSystem.Particle[pSystem.main.maxParticles];
+
+            if (_lastPos == Vector3.zero && Vector3.Distance(transform.position, _lastPos) > .5)
+            {
+                _lastPos = transform.position;
+            }
         }
 
     }
