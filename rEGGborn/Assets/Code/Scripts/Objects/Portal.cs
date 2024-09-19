@@ -7,7 +7,7 @@ namespace Reggborn.Objects
 {
     public sealed class Portal : GridObject
     {
-        public static event Action<uint, GridObject> OnTeleport;
+        public static event Action<uint, Egg> OnTeleport;
 
         public override uint CollisionPriority { get; protected set; } = 4;
         public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
@@ -21,32 +21,36 @@ namespace Reggborn.Objects
         protected override void Start()
         {
             base.Start();
+            if (sender) return;
             OnTeleport += OnTeleportEvent;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            if (sender) return;
             OnTeleport -= OnTeleportEvent;
         }
 
-        private void OnTeleportEvent(uint LinkKey, GridObject Subject)
+        private void OnTeleportEvent(uint LinkKey, Egg Subject)
         {
             if (sender) return;
+            if (Subject.HasTeleported) return;
             if (LinkKey != portalLink.LinkKey) return;
 
-            Subject.transform.position = transform.position;
+            Subject.Teleport(transform.position);
         }
 
         protected override void OnTickEvent(int ticks)
         {
+            if (!sender) return;
             collisionManager.DetectCollisionAt(transform.position, out GridObject gridObject);
             if (gridObject is Egg)
             {
                 if (_cooldown)
                 {
                     _cooldown = false;
-                    OnTeleport?.Invoke(portalLink.LinkKey, gridObject);
+                    OnTeleport?.Invoke(portalLink.LinkKey, gridObject as Egg);
                     return;
                 }
                 _cooldown = true;

@@ -7,10 +7,11 @@ namespace Reggborn.Objects
 {
     public class Egg : GridObject
     {
+        [SerializeField] private EggVisuals visuals;
         public override uint CollisionPriority { get; protected set; } = 3;
         public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
         public override bool GhostInteractable { get; protected set; } = true;
-        [SerializeField, ReadOnly] private bool hasTeleported;
+        [field: SerializeField, ReadOnly] public bool HasTeleported { get; private set; }
 
         public static bool CanBeLaid(Vector3 layPosition, bool playerIsGhost, NewCollisionManager manager)
         {
@@ -39,6 +40,16 @@ namespace Reggborn.Objects
 
         }
 
+        public void Teleport(Vector3 targetDir)
+        {
+            visuals.EnterPortal(targetDir);
+            HasTeleported = true;
+        }
+
+        public void SetPosition(Vector3 pos)
+        {
+            transform.position = pos;
+        }
         public Transform GetTransform() => transform;
         public GameObject GetGameObject() => gameObject;
     }

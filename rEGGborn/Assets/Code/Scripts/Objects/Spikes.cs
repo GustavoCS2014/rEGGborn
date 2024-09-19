@@ -13,22 +13,14 @@ namespace Reggborn.Objects
         [SerializeField] private bool spikesUp;
         [SerializeField] private Animator animator;
         [SerializeField] private AnimationClip upAnimation;
-        [SerializeField, ReadOnly] private int _upAnimationHash;
         [SerializeField] private AnimationClip downAnimation;
-        [SerializeField, ReadOnly] private int _downAnimationHash;
         [SerializeField] private NewCollisionManager collisionManager;
 
         protected override void Start()
         {
             base.Start();
             PlayerController.OnSuccessfulAction += OnSuccessfulActionEvent;
-            PlayAnimation(spikesUp ? "SpikesUp" : "SpikesDown");
-        }
-
-        private void OnValidate()
-        {
-            _upAnimationHash = upAnimation ? upAnimation.GetHashCode() : -1;
-            _downAnimationHash = downAnimation ? downAnimation.GetHashCode() : -1;
+            PlayAnimation(spikesUp ? upAnimation.name : downAnimation.name);
         }
 
         protected override void OnDisable()
