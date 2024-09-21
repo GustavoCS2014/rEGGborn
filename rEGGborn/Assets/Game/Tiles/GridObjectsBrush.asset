@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eecb59b66337634180175d9b852277a, type: 3}
+  m_Name: GridObjectsBrush
+  m_EditorClassIdentifier: 
+  m_Cells:
+  - m_GameObject: {fileID: 9007527896741664232, guid: 01711f4c49df8644eb4c7f09332ed2f4, type: 3}
+    m_Offset: {x: 0, y: 0, z: 0}
+    m_Scale: {x: 1, y: 1, z: 1}
+    m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Pivot: {x: 0, y: 0, z: 0}
+  m_CanChangeZPosition: 0
+  hiddenGridLayout:
+    cellSize: {x: 1, y: 1, z: 1}
+    cellGap: {x: 0, y: 0, z: 0}
+    cellLayout: 0
+    cellSwizzle: 0
+  hiddenGrid: {fileID: 0}
+  m_Anchor: {x: 0.5, y: 0.5, z: 0}
+  availableCells:
+  - Name: Rock
+    Cell:
+    - m_GameObject: {fileID: 594990658374697458, guid: a883871024f89604285a746781757141, type: 3}
+      m_Offset: {x: 0, y: 0, z: 0}
+      m_Scale: {x: 1, y: 1, z: 1}
+      m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  - Name: Spikes
+    Cell:
+    - m_GameObject: {fileID: 9007527896741664232, guid: 01711f4c49df8644eb4c7f09332ed2f4, type: 3}
+      m_Offset: {x: 0, y: 0, z: 0}
+      m_Scale: {x: 1, y: 1, z: 1}
+      m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  - Name: Spikes_Alt
+    Cell:
+    - m_GameObject: {fileID: 9007527896741664232, guid: 365c097ccd50a52478343ed3b64d5351, type: 3}
+      m_Offset: {x: 0, y: 0, z: 0}
+      m_Scale: {x: 1, y: 1, z: 1}
+      m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  - Name: Portal Reciever
+    Cell:
+    - m_GameObject: {fileID: 1093934771417186113, guid: 0f01b0d0e74c3304c800dfb75740c119, type: 3}
+      m_Offset: {x: 0, y: 0, z: 0}
+      m_Scale: {x: 1, y: 1, z: 1}
+      m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  - Name: Portal Sender
+    Cell:
+    - m_GameObject: {fileID: 3295024043765602722, guid: a5e999f1d54980940abb8ec04eef7bbf, type: 3}
+      m_Offset: {x: 0, y: 0, z: 0}
+      m_Scale: {x: 1, y: 1, z: 1}
+      m_Orientation: {x: 0, y: 0, z: 0, w: 0}
+  selectedCell: Spikes
