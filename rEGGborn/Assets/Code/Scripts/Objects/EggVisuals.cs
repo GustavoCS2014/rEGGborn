@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 namespace Reggborn.Objects
 {
@@ -7,8 +8,10 @@ namespace Reggborn.Objects
         [SerializeField] private Animator eggAnimator;
         [SerializeField] private AnimationClip enterPortalAnim;
         [SerializeField] private AnimationClip exitPortalAnim;
+        [SerializeField] private AnimationClip breakEggAnim;
 
         private Vector3? _destinationPortal;
+        private Action _breakCallback;
 
         public void EnterPortal(Vector3 portalExit)
         {
@@ -28,6 +31,22 @@ namespace Reggborn.Objects
             parent.SetPosition(_destinationPortal.Value);
             eggAnimator.CrossFade(exitPortalAnim.name, 0);
             _destinationPortal = null;
+        }
+
+        public void BreakEgg(Action callback)
+        {
+            _breakCallback = callback;
+            eggAnimator.CrossFade(breakEggAnim.name, 0);
+        }
+
+        public void PlayBreakCallback()
+        {
+            _breakCallback?.Invoke();
+        }
+
+        public void DestroyEgg()
+        {
+            Destroy(parent.gameObject);
         }
 
     }

@@ -31,13 +31,18 @@ namespace Reggborn.Objects
         {
             if (player.IsAlive()) return;
 
-            player.Revive();
-            Destroy(gameObject);
+            BreakEgg(player);
         }
 
-        public void BreakEgg()
+        public void BreakEgg(PlayerController player)
         {
+            if (player.IsAlive())
+            {
+                visuals.BreakEgg(() => { });
+                return;
+            }
 
+            visuals.BreakEgg(() => player.Revive());
         }
 
         public void Teleport(Vector3 targetDir)

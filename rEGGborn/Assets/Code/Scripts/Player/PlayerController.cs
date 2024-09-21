@@ -19,7 +19,7 @@ namespace Reggborn.Player
         public static event Action OnSuccessfulAction;
 
         public static PlayerController Instance { get; private set; }
-        public bool EggLaid { get; private set; }
+        [field: SerializeField, ReadOnly] public bool EggLaid { get; private set; }
         public PlayerState state;
         [Header("Visuals"), Space(10)]
         [SerializeField] private Transform AliveSprite;
@@ -32,7 +32,6 @@ namespace Reggborn.Player
         [SerializeField] private Egg eggPrefab;
         [SerializeField, ReadOnly] private Egg egg;
         [SerializeField, ReadOnly] private int ghostMoves;
-        [SerializeField, ReadOnly] private bool layedEgg;
         private Vector2 _direction;
 
         private GameManager _gameManager;
@@ -224,8 +223,7 @@ namespace Reggborn.Player
             //? if an egg has ben laid, break it and place a new one in the current position.
             if (EggLaid)
             {
-                egg.BreakEgg();
-                Destroy(egg.gameObject);
+                egg.BreakEgg(this);
                 egg = null;
                 EggLaid = false;
             }
