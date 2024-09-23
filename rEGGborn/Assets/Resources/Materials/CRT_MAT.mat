@@ -46,7 +46,7 @@ Material:
     - _Darkening: 2.51
     - _Noise: 1
     - _NoiseIntensity: 0.364
-    - _On: 0
+    - _On: 1
     - _Step: 1.5
     - _TexelSizeHorizontal: 3.81
     - _TexelSizeVertical: 1.4

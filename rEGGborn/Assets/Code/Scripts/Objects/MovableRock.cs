@@ -2,11 +2,15 @@ using DG.Tweening;
 using Reggborn.Core;
 using Reggborn.Player;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Reggborn.Objects
 {
     public sealed class MovableRock : GridObject
     {
+        public static UnityAction<AudioClip, Vector3> PlayMoveSound;
+        [SerializeField] private AudioClip moveSound;
+
         public override uint CollisionPriority { get; protected set; } = 1;
         public override CollisionType Type { get; protected set; } = CollisionType.Wall;
         public override bool GhostInteractable { get; protected set; } = false;
@@ -24,7 +28,8 @@ namespace Reggborn.Objects
             if (VerifyMove(transform.position + direction))
             {
                 Vector3 intPos = Vector3Int.RoundToInt(transform.position + direction);
-                transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutExpo);
+                PlayMoveSound?.Invoke(moveSound, transform.position);
+                transform.DOMove(intPos, TickManager.Instance.TickDuration).SetEase(Ease.OutSine);
                 base.InteractionSuccessful();
             }
 

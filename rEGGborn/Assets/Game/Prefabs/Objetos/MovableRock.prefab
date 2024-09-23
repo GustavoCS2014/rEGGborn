@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ea44a8da69917478ec64c1983fa37a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSound: {fileID: 8300000, guid: c12a3f741ad9bae4cb47720be96138a6, type: 3}
   collisionManager: {fileID: 11400000, guid: 9b1e7a3499aa1b54da4800161adb54c0, type: 2}
 --- !u!61 &1357128729346916070
 BoxCollider2D:

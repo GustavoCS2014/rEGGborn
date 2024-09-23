@@ -2,11 +2,16 @@ using EditorAttributes;
 using Reggborn.Core;
 using Reggborn.Player;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Reggborn.Objects
 {
     public class Spikes : GridObject
     {
+        public static UnityAction<AudioClip, Vector3> PlayUpSound;
+        [SerializeField] private AudioClip SpikesUpSound;
+        [SerializeField] private AudioClip SpikesDownSound;
+
         public override uint CollisionPriority { get; protected set; } = 2;
         public override CollisionType Type { get; protected set; } = CollisionType.Walkable;
         public override bool GhostInteractable { get; protected set; } = false;
@@ -33,7 +38,18 @@ namespace Reggborn.Objects
         {
             spikesUp = !spikesUp;
 
-            PlayAnimation(spikesUp ? "SpikesUp" : "SpikesDown");
+            if (spikesUp)
+            {
+                PlayUpSound?.Invoke(SpikesUpSound, transform.position);
+                PlayAnimation(upAnimation.name);
+                return;
+            }
+
+            PlayUpSound?.Invoke(SpikesDownSound, transform.position);
+            PlayAnimation(downAnimation.name);
+            // return;
+
+            // PlayAnimation(spikesUp ? "SpikesUp" : "SpikesDown");
         }
         public override void Interact(PlayerController player)
         {

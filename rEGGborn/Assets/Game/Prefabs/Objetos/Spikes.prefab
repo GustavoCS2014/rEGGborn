@@ -487,8 +487,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758569996605346523}
-  - component: {fileID: 5543932475076319061}
   - component: {fileID: 3386569800880867524}
+  - component: {fileID: 5543932475076319061}
   m_Layer: 8
   m_Name: Spikes
   m_TagString: Untagged
@@ -512,6 +512,25 @@ Transform:
   - {fileID: 8784010338392224460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3386569800880867524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007527896741664232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39c93e4cded71f4f942a15c89727347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpikesUpSound: {fileID: 8300000, guid: a1d3ab6d485808047b0759e9695bb623, type: 3}
+  SpikesDownSound: {fileID: 0}
+  spikesUp: 0
+  animator: {fileID: 5926806108691215889}
+  upAnimation: {fileID: 7400000, guid: ea50b6a45bdd5fe41bd4e4d83cee81bb, type: 2}
+  downAnimation: {fileID: 7400000, guid: 62f73bc956d197848806783f75676e8f, type: 2}
+  collisionManager: {fileID: 11400000, guid: 9b1e7a3499aa1b54da4800161adb54c0, type: 2}
 --- !u!61 &5543932475076319061
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -557,20 +576,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3386569800880867524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9007527896741664232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39c93e4cded71f4f942a15c89727347, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spikesUp: 0
-  animator: {fileID: 5926806108691215889}
-  upAnimation: {fileID: 7400000, guid: ea50b6a45bdd5fe41bd4e4d83cee81bb, type: 2}
-  downAnimation: {fileID: 7400000, guid: 62f73bc956d197848806783f75676e8f, type: 2}
-  collisionManager: {fileID: 11400000, guid: 9b1e7a3499aa1b54da4800161adb54c0, type: 2}

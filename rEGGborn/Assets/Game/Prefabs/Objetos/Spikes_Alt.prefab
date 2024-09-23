@@ -569,6 +569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c93e4cded71f4f942a15c89727347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpikesUpSound: {fileID: 8300000, guid: a1d3ab6d485808047b0759e9695bb623, type: 3}
+  SpikesDownSound: {fileID: 0}
   spikesUp: 1
   animator: {fileID: 5926806108691215889}
   upAnimation: {fileID: 7400000, guid: ea50b6a45bdd5fe41bd4e4d83cee81bb, type: 2}
