@@ -34,8 +34,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Blur: 15
-    - _Opacity: 1
+    - _Opacity: 0.8
     - _ShadowDistance: 15
     m_Colors:
-    - _Tint: {r: 0.05882353, g: 0, b: 0.05882353, a: 0}
+    - _Tint: {r: 0, g: 0, b: 0.019607844, a: 0}
   m_BuildTextureStacks: []

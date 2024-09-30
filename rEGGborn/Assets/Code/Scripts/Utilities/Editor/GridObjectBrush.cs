@@ -49,6 +49,10 @@ public class GridObjectBrush : GameObjectBrush
 
     private GridObjectCell FindCell(string name)
     {
-        return availableCells.First(cell => cell.Name == name);
+        if (name is null)
+            return null;
+        GridObjectCell newCell = availableCells.Where(cell => cell.Name != "" || cell.Name != null).First(cell => cell.Name == name);
+
+        return newCell is null ? null : newCell;
     }
 }
